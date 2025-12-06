@@ -20,6 +20,7 @@ jobs:
       uses: oven-sh/setup-bun@v2
       with:
         bun-version: latest
+        no-cache: false
         # bun-version-file: # optional (e.g. "package.json", ".bun-version", ".tool-versions")
         # registry-url: # optional to use for installing Bun. Set the $BUN_AUTH_TOKEN environment variable to authenticate.
               
