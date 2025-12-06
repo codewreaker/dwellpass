@@ -22,14 +22,14 @@ class UserOperations {
 
     constructor(db: Database) {
         this.db = db;
-
-        // Prepare all statements once
-        this.insertStmt = db.query(`
+        try {
+            // Prepare all statements once
+            this.insertStmt = db.query(`
       INSERT INTO users (id, email, firstName, lastName, phone, createdAt, updatedAt)
       VALUES ($id, $email, $firstName, $lastName, $phone, $createdAt, $updatedAt)
     `);
 
-        this.updateStmt = db.query(`
+            this.updateStmt = db.query(`
       UPDATE users 
       SET email = $email, 
           firstName = $firstName, 
@@ -39,9 +39,20 @@ class UserOperations {
       WHERE id = $id
     `);
 
-        this.deleteStmt = db.query(`DELETE FROM users WHERE id = $id`);
-        this.findByIdStmt = db.query(`SELECT * FROM users WHERE id = $id`);
-        this.findAllStmt = db.query(`SELECT * FROM users ORDER BY createdAt DESC`);
+            this.deleteStmt = db.query(`DELETE FROM users WHERE id = $id`);
+            this.findByIdStmt = db.query(`SELECT * FROM users WHERE id = $id`);
+            this.findAllStmt = db.query(`SELECT * FROM users ORDER BY createdAt DESC`);
+        } catch (error) {
+            if ((error as Error)?.message?.includes("no such table")) {
+                throw new Error(
+                    `❌ Database not seeded! The 'users' table doesn't exist.\n\n` +
+                    `Please run the seed script first:\n` +
+                    `  bun run src/server/db/seed.ts\n\n` +
+                    `Original error: ${(error as Error).message}`
+                );
+            }
+            throw error;
+        }
     }
 
     // Convert DB row (with timestamp) to User object (with Date)

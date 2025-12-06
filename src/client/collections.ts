@@ -8,8 +8,8 @@ import { UserSchema, type User } from '../db/schemas'
 
 const queryClient = new QueryClient();
 
-const API_BASE = "http://localhost:3000/api";
-
+const API_BASE = `http://localhost:3000/api`;
+console.log('=========API_BASE',API_BASE)
 export const userCollection = createCollection(
   queryCollectionOptions({
     queryKey: ["users"],

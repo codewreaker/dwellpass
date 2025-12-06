@@ -9,7 +9,7 @@ const spawnOptions: any = {
 
 
 const run = async () => {
-    //spawn(["bun", "--bun", "vite"], spawnOptions)
+    spawn(["bun", "--bun", "vite"], spawnOptions)
     spawn(["bun", "run", "--hot", "src/server/index.ts"], spawnOptions)
 
     process.on("SIGINT", async () => {
