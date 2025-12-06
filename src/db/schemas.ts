@@ -12,17 +12,17 @@ export type LoyaltyTier = z.infer<typeof LoyaltyTierEnum>
 export type LiveUpdateType = z.infer<typeof LiveUpdateTypeEnum>
 
 // Patron
-export const PatronSchema = z.object({
+export const UserSchema = z.object({
   id: z.uuid(),
   email: z.email(),
   firstName: z.string().min(1, "Firstname should be more than a character"),
   lastName: z.string().min(1),
   phone: z.string().optional(),
-  createdAt: z.date(),
-  updatedAt: z.date(),
+  createdAt: z.number(),
+  updatedAt: z.number()
 })
 
-export type Patron = z.infer<typeof PatronSchema>
+export type User = z.infer<typeof UserSchema>
 
 // Event
 export const EventSchema = z.object({

@@ -1,16 +1,15 @@
-import { useState } from 'react'
-
-// import reactLogo from './assets/react.svg'
-// import viteLogo from '/vite.svg'
+import { userCollection } from './client/collections';
 import './App.css'
 
 
 function App() {
-  const [count, setCount] = useState(0);
+
+
 
   return (
     <>
-      <h1 onClick={() => setCount((prev) => ++prev)}>Vite + React {count}</h1>
+      <h1>LocalFirst</h1>
+      <button onClick={console.log}>Add User</button>
     </>
   )
 }
