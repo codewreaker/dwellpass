@@ -10,6 +10,8 @@ import { logger } from "hono/logger";
 import { getDatabase, initializeSchema } from "../db";
 import usersRoutes from "./routes/users";
 
+const THROTTLE_DELAY = 10000;
+
 // Initialize database
 const db = getDatabase();
 initializeSchema(db);
@@ -17,9 +19,22 @@ initializeSchema(db);
 // Create Hono app
 const app = new Hono();
 
+// Throttle middleware for testing purposes
+const throttleMiddleware = (delayMs = 500) => {
+  return async (c, next) => {
+    await new Promise(resolve => setTimeout(resolve, delayMs));
+    await next();
+  };
+};
+
 // Middleware
 app.use("*", logger());
 app.use("*", cors());
+
+// Apply throttle to API routes if THROTTLE_DELAY env var is set
+if (THROTTLE_DELAY > 0) {
+  app.use("/api/*", throttleMiddleware(THROTTLE_DELAY));
+}
 
 // Health check
 app.get("/health", (c) => c.json({ status: "ok", timestamp: Date.now() }));

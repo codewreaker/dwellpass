@@ -50,6 +50,7 @@ users.get("/:id", (c) => {
 // POST /api/users - Create new user
 users.post("/", async (c) => {
     try {
+        throw new Error("Testio")
         const body = await c.req.json();
         const validated = CreateUserSchema.parse(body);
 
