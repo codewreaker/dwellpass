@@ -1,5 +1,5 @@
 import type {
-    User
+    UserType
 } from '../../src/entities/schemas'
 
 import type { Database } from "bun:sqlite";
@@ -56,7 +56,7 @@ class UserOperations {
     }
 
     // Convert DB row (with timestamp) to User object (with Date)
-    private rowToUser(row: User): User {
+    private rowToUser(row: UserType): UserType {
         return {
             ...row,
             createdAt: row.createdAt,
@@ -64,19 +64,19 @@ class UserOperations {
         };
     }
 
-    findAll(): User[] {
-        const rows = this.findAllStmt.all() as User[];
+    findAll(): UserType[] {
+        const rows = this.findAllStmt.all() as UserType[];
         return rows.map(this.rowToUser);
     }
 
-    findById(id: string): User | null {
-        const row = this.findByIdStmt.get({ id }) as User;
+    findById(id: string): UserType | null {
+        const row = this.findByIdStmt.get({ id }) as UserType;
         return row ? this.rowToUser(row) : null;
     }
 
-    create(user: Omit<User, "createdAt" | "updatedAt">): User {
+    create(user: Omit<UserType, "createdAt" | "updatedAt">): UserType {
         const now = Date.now();
-        const newUser: User = {
+        const newUser = {
             ...user,
             createdAt: now,
             updatedAt: now,
@@ -95,11 +95,11 @@ class UserOperations {
         return newUser;
     }
 
-    update(id: string, updates: Partial<Omit<User, "id" | "createdAt" | "updatedAt">>): User | null {
+    update(id: string, updates: Partial<Omit<UserType, "id" | "createdAt" | "updatedAt">>): UserType | null {
         const existing = this.findById(id);
         if (!existing) return null;
 
-        const updated: User = {
+        const updated:UserType = {
             ...existing,
             ...updates,
             updatedAt: Date.now(),
@@ -112,7 +112,7 @@ class UserOperations {
             lastName: updated.lastName,
             phone: updated.phone ?? null,
             updatedAt: updated.updatedAt,
-        });
+        } as UserType);
 
         return updated;
     }
@@ -123,9 +123,9 @@ class UserOperations {
     }
 
     // Bulk operations with transactions
-    createMany(users: Omit<User, "createdAt" | "updatedAt">[]): User[] {
-        const insertMany = this.db.transaction((users: Omit<User, "createdAt" | "updatedAt">[]) => {
-            const created: User[] = [];
+    createMany(users: Omit<UserType, "createdAt" | "updatedAt">[]): UserType[] {
+        const insertMany = this.db.transaction((users: Omit<UserType, "createdAt" | "updatedAt">[]) => {
+            const created: UserType[] = [];
             for (const user of users) {
                 created.push(this.create(user));
             }
