@@ -32,20 +32,3 @@
   color: var(--text-secondary);
   font-size: 1.1rem;
 }
-
-@media (max-width: 1200px) {
-  .app-layout {
-    flex-direction: row;
-  }
-}
-
-@media (max-width: 768px) {
-  .main-content {
-    min-height: calc(100vh - 140px);
-    padding-bottom: 70px;
-  }
-  
-  .placeholder-content {
-    padding: 2rem 1rem;
-  }
-}

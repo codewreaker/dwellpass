@@ -17,10 +17,10 @@ import type { UserType } from './entities/schemas';
 function App() {
   const [activeMode, setActiveMode] = useState('dashboard');
   const [showSignInModal, setShowSignInModal] = useState(false);
-  const [leftSidebarCollapsed, setLeftSidebarCollapsed] = useState(false);
+  const [leftSidebarCollapsed, setLeftSidebarCollapsed] = useState(true);
   const [rightSidebarCollapsed, setRightSidebarCollapsed] = useState(false);
 
-    const { data } = useLiveQuery(q => q.from({ userCollection }))
+  const { data } = useLiveQuery(q => q.from({ userCollection }))
 
   const createUser = () => {
     const user = new User('Israel', 'Agyeman-Prmepeh', `user${crypto.randomUUID()}@email.com`, '+563456765');
@@ -34,20 +34,20 @@ function App() {
   return (
     <div className="app-container">
       <TopNavBar onNewEventClick={() => setShowSignInModal(true)} />
-      
+
       <div className="app-layout">
-        <LeftSidebar 
-          activeMode={activeMode} 
+        <LeftSidebar
+          activeMode={activeMode}
           onModeChange={setActiveMode}
           isCollapsed={leftSidebarCollapsed}
           onToggleCollapse={() => setLeftSidebarCollapsed(!leftSidebarCollapsed)}
         />
-        
+
         <main className="main-content">
           {activeMode === 'dashboard' && (
             <>
               <HeroPanel />
-              <AttendanceTable rowData={rows} />
+              <AttendanceTable rowData={rows}/>
             </>
           )}
           
@@ -64,35 +64,18 @@ function App() {
               <p>Events management interface coming soon...</p>
             </div>
           )}
-          
-          {activeMode === 'analytics' && (
-            <div className="placeholder-content">
-              <h2>Analytics Dashboard</h2>
-              <p>Advanced analytics coming soon...</p>
-            </div>
-          )}
-          
-          {activeMode === 'reports' && (
-            <div className="placeholder-content">
-              <h2>Reports</h2>
-              <p>Reporting interface coming soon...</p>
-            </div>
-          )}
-          
-          {activeMode === 'settings' && (
-            <div className="placeholder-content">
-              <h2>Settings</h2>
-              <p>Application settings coming soon...</p>
-            </div>
-          )}
         </main>
-        
-        <RightSidebar />
+
+
+        <RightSidebar
+          isCollapsed={rightSidebarCollapsed}
+          onToggleCollapse={() => setRightSidebarCollapsed(!rightSidebarCollapsed)}
+        />
       </div>
-      
-      <SignInModal 
-        isOpen={showSignInModal} 
-        onClose={() => setShowSignInModal(false)} 
+
+      <SignInModal
+        isOpen={showSignInModal}
+        onClose={() => setShowSignInModal(false)}
       />
     </div>
   );

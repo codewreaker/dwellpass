@@ -10,7 +10,6 @@
   position: sticky;
   top: 70px;
   transition: width 0.3s ease;
-  position: relative;
 }
 
 .left-sidebar.collapsed {
@@ -30,6 +29,7 @@
   align-items: center;
   justify-content: center;
   color: var(--text-secondary);
+  cursor: pointer;
   z-index: 10;
   transition: all 0.2s;
 }
