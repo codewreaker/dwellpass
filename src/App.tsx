@@ -1,10 +1,10 @@
 import React, { useRef, useState } from "react";
-import { TopNavBar } from "./components/TopNavBar";
-import { LeftSidebar } from "./components/LeftSidebar";
-import { RightSidebar } from "./components/RightSidebar";
-import { HeroPanel } from "./components/HeroPanel";
-import { AttendanceTable } from "./components/AttendanceTable";
-import { SignInModal } from "./components/SignInModal";
+import { TopNavBar } from "./containers/TopNavBar";
+import { LeftSidebar } from "./containers/LeftSidebar";
+import { RightSidebar } from "./containers/RightSidebar";
+import { HeroPanel } from "./containers/HeroPanel";
+import { AttendanceTable } from "./containers/AttendanceTable";
+import { SignInModal } from "./containers/SignInModal";
 import type { RowClickedEvent } from "ag-grid-community";
 import "./App.css";
 

@@ -2,7 +2,7 @@ import React, { useMemo } from 'react'
 import { 
   MoreVertical, PlusCircleIcon, Filter 
 } from 'lucide-react';
-import GridTable from '../../ui/grid-table';
+import GridTable from '../../components/GridTable';
 import './style.css';
 import { LoyaltyTierEnum, type AttendanceType, type LoyaltyType, type UserType } from '../../entities/schemas';
 import type { ColDef, RowClickedEvent } from 'ag-grid-community';

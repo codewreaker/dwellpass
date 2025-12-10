@@ -82,7 +82,7 @@
 .form-group label {
   color: var(--text-primary);
   font-weight: 500;
-  font-size: 0.675rem;
+  font-size: 1rem;
 }
 
 .input-wrapper {
@@ -229,7 +229,7 @@
 
 .modal-footer p {
   color: var(--text-secondary);
-  font-size: 0.675rem;
+  font-size: 1rem;
 }
 
 .toggle-mode-btn {

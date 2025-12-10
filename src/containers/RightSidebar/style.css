@@ -1,5 +1,5 @@
 .right-sidebar {
-  width: 250px;
+  width: 300px;
   background-color: var(--darker-bg);
   border-left: 1px solid var(--border-color);
   padding: 0.9375rem;
@@ -11,14 +11,19 @@
   flex-direction: column;
   gap: 0.9375rem;
   transition: width 0.3s ease, padding 0.3s ease, border 0.3s ease;
+
+  &.collapsed {
+    width: 30px;
+    padding: 0.75rem 0;
+    border-left: none;
+    overflow: hidden;
+  }
+
+  &.collapsed .collapse-toggle-right {
+    left: 6px;
+  }
 }
 
-.right-sidebar.collapsed {
-  width: 30px;
-  padding: 0.75rem 0;
-  border-left: none;
-  overflow: hidden;
-}
 
 .collapse-toggle-right {
   position: absolute;
@@ -38,9 +43,6 @@
   transition: all 0.2s;
 }
 
-.right-sidebar.collapsed .collapse-toggle-right {
-  left: 6px;
-}
 
 .collapse-toggle-right:hover {
   background-color: var(--primary-yellow);
@@ -68,7 +70,6 @@
 }
 
 .card-header h3 {
-  font-size: 0.825rem;
   color: var(--text-primary);
 }
 
@@ -89,7 +90,7 @@
   color: var(--darker-bg);
   border-radius: 15px;
   font-weight: 700;
-  font-size: 0.675rem;
+  font-size: 1rem;
   letter-spacing: 1px;
 }
 
@@ -175,7 +176,7 @@
 }
 
 .calendar-month {
-  font-size: 0.675rem;
+  font-size: 1rem;
   color: var(--text-primary);
   font-weight: 600;
 }
@@ -314,7 +315,7 @@
 }
 
 .event-title {
-  font-size: 0.675rem;
+  font-size: 1rem;
   color: var(--text-primary);
   font-weight: 500;
   margin-bottom: 0.1875rem;

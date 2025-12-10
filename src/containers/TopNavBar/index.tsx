@@ -16,15 +16,9 @@ export const TopNavBar: React.FC<TopNavBarProps> = ({ onNewEventClick }) => {
           <div className="logo-icon">DP</div>
           <span className="logo-text">DwellPass</span>
         </div>
-        <div className="nav-links">
-          <a href="#dashboard" className="nav-link active">Dashboard</a>
-          <a href="#members" className="nav-link">Members</a>
-          <a href="#events" className="nav-link">Events</a>
-          <a href="#reports" className="nav-link">Reports</a>
-        </div>
       </div>
-      
-      <div className="navbar-right">
+
+      <div className="navbar-center">
         <div className="search-container">
           <Search className="search-icon" size={14} />
           <input 
@@ -33,7 +27,10 @@ export const TopNavBar: React.FC<TopNavBarProps> = ({ onNewEventClick }) => {
             className="search-input"
           />
         </div>
-        
+      </div>
+      
+      
+      <div className="navbar-right">        
         <button className="new-event-btn" onClick={onNewEventClick}>
           <Calendar size={14} />
           <span>New Event</span>
