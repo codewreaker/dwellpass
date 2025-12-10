@@ -115,8 +115,6 @@ export default function MembersPage() {
   const rows: UserType[] = Array.isArray(data) ? data : []
 
   return (
-    <div className="placeholder-content">
       <AttendanceTable columnDefs={columnDefs} rowData={rows} handleAction={hdl} />
-    </div>
   )
 }
