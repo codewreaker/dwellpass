@@ -3,8 +3,10 @@ import { MoreVertical, Download, Filter } from 'lucide-react';
 import GridTable from '../ui/grid-table';
 import './AttendanceTable.css';
 import type { UserType } from '../entities/schemas';
+import type { ColDef } from 'ag-grid-community';
 
-interface AttendanceRecord {
+//@ts-ignore
+const mockData: {
   id: string;
   memberName: string;
   email: string;
@@ -14,9 +16,7 @@ interface AttendanceRecord {
   attendanceRate: number;
   points: number;
   status: string;
-}
-
-const mockData: AttendanceRecord[] = [
+}[] = [
   { id: 'M001', memberName: 'John Smith', email: 'john.smith@email.com', membershipLevel: 'Platinum', lastAttended: '2024-12-08', totalEvents: 45, attendanceRate: 95, points: 4500, status: 'Active' },
   { id: 'M002', memberName: 'Sarah Johnson', email: 'sarah.j@email.com', membershipLevel: 'Gold', lastAttended: '2024-12-07', totalEvents: 38, attendanceRate: 89, points: 3800, status: 'Active' },
   { id: 'M003', memberName: 'Michael Chen', email: 'mchen@email.com', membershipLevel: 'Silver', lastAttended: '2024-12-05', totalEvents: 28, attendanceRate: 76, points: 2800, status: 'Active' },
@@ -66,9 +66,8 @@ const AttendanceBar: React.FC<{ rate: number }> = ({ rate }) => {
 };
 
 export const AttendanceTable: React.FC<{rowData:UserType[]}> = ({rowData}) => {
-  //const [rowData] = useState<AttendanceRecord[]>(mockData);
   
-  const columnDefs = useMemo(() => [
+  const columnDefs = useMemo<ColDef[]>(() => [
     { 
       field: 'id', 
       headerName: 'Member ID',
