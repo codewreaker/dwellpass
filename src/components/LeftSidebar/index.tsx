@@ -1,6 +1,6 @@
 import React from 'react';
 import { LayoutDashboard, Users, Calendar, LogOut, ChevronLeft, ChevronRight } from 'lucide-react';
-import './LeftSidebar.css';
+import './style.css';
 
 interface LeftSidebarProps {
   activeMode: string;

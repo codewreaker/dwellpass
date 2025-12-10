@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Search, Bell, Calendar, User, ChevronDown } from 'lucide-react';
-import './TopNavBar.css';
+import './style.css';
 
 interface TopNavBarProps {
   onNewEventClick: () => void;

@@ -1,9 +1,11 @@
 import React, { useMemo } from 'react'
-import { MoreVertical, Download, Filter } from 'lucide-react';
-import GridTable from '../ui/grid-table';
-import './AttendanceTable.css';
-import { LoyaltyTierEnum, type AttendanceType, type LoyaltyType, type UserType } from '../entities/schemas';
-import type { ColDef } from 'ag-grid-community';
+import { 
+  MoreVertical, PlusCircleIcon, Filter 
+} from 'lucide-react';
+import GridTable from '../../ui/grid-table';
+import './style.css';
+import { LoyaltyTierEnum, type AttendanceType, type LoyaltyType, type UserType } from '../../entities/schemas';
+import type { ColDef, RowClickedEvent } from 'ag-grid-community';
 
 
 const StatusBadge: React.FC<{ status: string }> = ({ status }) => {
@@ -123,7 +125,10 @@ const columnDefs: ColDef<UserType & LoyaltyType & AttendanceType>[] = [
   },
 ];
 
-export const AttendanceTable: React.FC<{ rowData: UserType[] }> = ({ rowData }) => {
+export const AttendanceTable: React.FC<{ 
+  rowData: UserType[], 
+  handleAction: (type:string, event?: React.SyntheticEvent | RowClickedEvent)=>void 
+}> = ({ rowData, handleAction }) => {
 
   const defaultColDef = useMemo(() => ({
     sortable: true,
@@ -142,9 +147,9 @@ export const AttendanceTable: React.FC<{ rowData: UserType[] }> = ({ rowData }) 
             <Filter size={14} />
             <span>Filter</span>
           </button>
-          <button className="table-action-btn">
-            <Download size={14} />
-            <span>Export</span>
+          <button className="table-action-btn" onClick={(e)=>handleAction('add', e)}>
+            <PlusCircleIcon size={14} />
+            <span>Create User</span>
           </button>
         </div>
       </div>
@@ -160,6 +165,7 @@ export const AttendanceTable: React.FC<{ rowData: UserType[] }> = ({ rowData }) 
             checkboxes: false,
             enableClickSelection: true
           }}
+          onRowClicked={(e)=>handleAction(e.type, e)}
           domLayout="autoHeight"
         />
       </div>

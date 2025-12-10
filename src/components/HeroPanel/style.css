@@ -5,23 +5,54 @@
   gap: 1.125rem;
 }
 
-.stats-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 1.125rem;
-}
-
-.stat-card {
+.grid-item {
   background-color: var(--card-bg);
   border: 1px solid var(--border-color);
   border-radius: 9px;
   padding: 1.125rem;
   transition: transform 0.2s, box-shadow 0.2s;
+  position: relative;
 }
 
-.stat-card:hover {
-  transform: translateY(-2px);
+.grid-item:hover {
   box-shadow: 0 6px 18px rgba(0, 0, 0, 0.3);
+}
+
+.grid-item .drag-handle {
+  position: absolute;
+  top: 0.3rem;
+  right: 0.3rem;
+  width: 24px;
+  height: 24px;
+  cursor: move;
+  opacity: 0;
+  transition: opacity 0.2s;
+  background-color: var(--border-color);
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-secondary);
+  font-size: 0.7rem;
+  z-index: 10;
+  user-select: none;
+  line-height: 1;
+  letter-spacing: -2px;
+}
+
+.grid-item:hover .drag-handle {
+  opacity: 1;
+}
+
+.grid-item .drag-handle:hover {
+  background-color: var(--primary-yellow);
+  color: var(--darker-bg);
+}
+
+.stat-card {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
 }
 
 .stat-header {
@@ -62,6 +93,7 @@
 
 .stat-content {
   margin-top: 0.375rem;
+  flex: 1;
 }
 
 .stat-value {
@@ -76,17 +108,10 @@
   font-size: 0.675rem;
 }
 
-.charts-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 1.125rem;
-}
-
 .chart-card {
-  background-color: var(--card-bg);
-  border: 1px solid var(--border-color);
-  border-radius: 9px;
-  padding: 1.125rem;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
 }
 
 .chart-header {
@@ -118,6 +143,8 @@
 
 .chart-container {
   width: 100%;
+  flex: 1;
+  min-height: 150px;
 }
 
 .pie-legend {
@@ -141,28 +168,16 @@
   border-radius: 2.25px;
 }
 
+
 @media (max-width: 1024px) {
   .hero-panel {
     padding: 1.125rem;
-  }
-  
-  .stats-grid {
-    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-    gap: 0.75rem;
-  }
-  
-  .charts-grid {
-    grid-template-columns: 1fr;
   }
 }
 
 @media (max-width: 768px) {
   .hero-panel {
     padding: 0.75rem;
-  }
-  
-  .stats-grid {
-    grid-template-columns: 1fr;
   }
   
   .stat-value {

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Star, Calendar as CalendarIcon, ChevronLeft, ChevronRight } from 'lucide-react';
-import './RightSidebar.css';
+import './style.css';
 
 interface RightSidebarProps {
   isCollapsed: boolean;
