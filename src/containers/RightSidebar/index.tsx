@@ -1,14 +1,16 @@
 import React, { useState } from 'react';
 import { Star, Calendar as CalendarIcon, ChevronLeft, ChevronRight } from 'lucide-react';
 import './style.css';
+import { useAppStore } from '../../store';
 
-interface RightSidebarProps {
-  isCollapsed: boolean;
-  onToggleCollapse: () => void;
-}
 
-export const RightSidebar: React.FC<RightSidebarProps> = ({ isCollapsed, onToggleCollapse }) => {
+export const RightSidebar: React.FC= () => {
   const [currentMonth, setCurrentMonth] = useState(new Date());
+
+  const isCollapsed = useAppStore(({ sidebarOpen }) => (sidebarOpen['left']))
+  const toggleSidebar = useAppStore(({ toggleSidebar }) => toggleSidebar)
+
+  const onToggleCollapse = () => toggleSidebar('left')
   
   const getDaysInMonth = (date: Date) => {
     const year = date.getFullYear();
@@ -36,9 +38,9 @@ export const RightSidebar: React.FC<RightSidebarProps> = ({ isCollapsed, onToggl
   const isCurrentMonth = 
     currentMonth.getMonth() === new Date().getMonth() &&
     currentMonth.getFullYear() === new Date().getFullYear();
-
+    
   return (
-    <aside className={`right-sidebar ${isCollapsed ? 'collapsed' : ''}`}>
+    <aside className={`right-sidebar ${isCollapsed ? 'collapsed' : ''} scrollable`}>
       <button className="collapse-toggle-right" onClick={onToggleCollapse}>
         {isCollapsed ? <ChevronLeft size={15} /> : <ChevronRight size={15} />}
       </button>

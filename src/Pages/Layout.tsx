@@ -3,7 +3,6 @@ import { TopNavBar } from "../containers/TopNavBar";
 import { LeftSidebar } from "../containers/LeftSidebar";
 import { RightSidebar } from "../containers/RightSidebar";
 import { SignInModal } from "../containers/SignInModal";
-import { useState } from "react";
 import {
   LayoutDashboard,
   Users,
@@ -12,21 +11,15 @@ import {
 } from "lucide-react";
 import "../App.css";
 
+
 export function RootLayout() {
-  const [showSignInModal, setShowSignInModal] = useState(false);
-  const [leftSidebarCollapsed, setLeftSidebarCollapsed] = useState(true);
-  const [rightSidebarCollapsed, setRightSidebarCollapsed] = useState(false);
 
   return (
     <div className="app-container">
-      <TopNavBar onNewEventClick={() => setShowSignInModal(true)} />
+      <TopNavBar/>
 
       <div className="app-layout">
         <LeftSidebar
-          isCollapsed={leftSidebarCollapsed}
-          onToggleCollapse={() =>
-            setLeftSidebarCollapsed(!leftSidebarCollapsed)
-          }
           menuConfig={[
             { path: "/", icon: LayoutDashboard, label: "Home" },
             { path: "/members", icon: Users, label: "Members" },
@@ -43,18 +36,10 @@ export function RootLayout() {
           <Outlet />
         </main>
 
-        <RightSidebar
-          isCollapsed={rightSidebarCollapsed}
-          onToggleCollapse={() =>
-            setRightSidebarCollapsed(!rightSidebarCollapsed)
-          }
-        />
+        <RightSidebar/>
       </div>
 
-      <SignInModal
-        isOpen={showSignInModal}
-        onClose={() => setShowSignInModal(false)}
-      />
+      <SignInModal />
     </div>
   );
 }

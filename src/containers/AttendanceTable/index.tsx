@@ -4,6 +4,7 @@ import GridTable from "../../components/GridTable";
 import "./style.css";
 import type { UserType } from "../../entities/schemas";
 import type { ColDef, RowClickedEvent } from "ag-grid-community";
+import { useAppStore } from "../../store";
 
 export const StatusBadge: React.FC<{ status: string }> = ({ status }) => {
   return (
@@ -47,6 +48,9 @@ export const AttendanceTable: React.FC<{
     event?: React.SyntheticEvent | RowClickedEvent
   ) => void;
 }> = ({ columnDefs, rowData, handleAction }) => {
+    const addEvent = useAppStore((state)=>state.addEvent);
+    const addUser=()=>addEvent('add')
+    
   const defaultColDef = useMemo(
     () => ({
       sortable: true,
@@ -69,7 +73,7 @@ export const AttendanceTable: React.FC<{
           </button>
           <button
             className="table-action-btn"
-            onClick={(e) => handleAction("add", e)}
+            onClick={addUser}
           >
             <PlusCircleIcon size={14} />
             <span>Create User</span>

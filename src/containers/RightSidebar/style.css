@@ -1,7 +1,6 @@
 .right-sidebar {
   width: 300px;
   background-color: var(--darker-bg);
-  border-left: 1px solid var(--border-color);
   padding: 0.9375rem;
   height: calc(100vh - 52.5px);
   overflow-y: auto;
@@ -328,11 +327,11 @@
 
 @media (max-width: 1400px) {
   .right-sidebar {
-    width: 210px;
+    width: 250px;
   }
 }
 
-@media (max-width: 1200px) {
+@media (max-width: 640) {
   .right-sidebar {
     display: none;
   }

@@ -1,13 +1,15 @@
 import React, { useState } from 'react';
 import { Search, Bell, Calendar, User, ChevronDown } from 'lucide-react';
 import './style.css';
+import { useAppStore } from '../../store';
 
-interface TopNavBarProps {
-  onNewEventClick: () => void;
-}
 
-export const TopNavBar: React.FC<TopNavBarProps> = ({ onNewEventClick }) => {
+export const TopNavBar: React.FC= () => {
   const [showDropdown, setShowDropdown] = useState(false);
+
+  const addUser = useAppStore((state)=>state.addEvent)
+
+  const onNewEventClick =()=>addUser('add')
 
   return (
     <nav className="top-navbar">
@@ -21,28 +23,28 @@ export const TopNavBar: React.FC<TopNavBarProps> = ({ onNewEventClick }) => {
       <div className="navbar-center">
         <div className="search-container">
           <Search className="search-icon" size={14} />
-          <input 
-            type="text" 
-            placeholder="Search members, events..." 
+          <input
+            type="text"
+            placeholder="Search members, events..."
             className="search-input"
           />
         </div>
       </div>
-      
-      
-      <div className="navbar-right">        
+
+
+      <div className="navbar-right">
         <button className="new-event-btn" onClick={onNewEventClick}>
           <Calendar size={14} />
           <span>New Event</span>
         </button>
-        
+
         <button className="icon-btn">
           <Bell size={15} />
           <span className="notification-badge">3</span>
         </button>
-        
+
         <div className="avatar-dropdown">
-          <button 
+          <button
             className="avatar-btn"
             onClick={() => setShowDropdown(!showDropdown)}
           >
@@ -51,7 +53,7 @@ export const TopNavBar: React.FC<TopNavBarProps> = ({ onNewEventClick }) => {
             </div>
             <ChevronDown size={12} />
           </button>
-          
+
           {showDropdown && (
             <div className="dropdown-menu">
               <div className="dropdown-item">Profile</div>

@@ -64,6 +64,23 @@ input {
   outline: none;
 }
 
+.scrollable::-webkit-scrollbar {
+  display: none;           /* Chrome, Safari, new Edge */
+}
+
+.scrollable::-webkit-scrollbar-track {
+  background: var(--darker-bg);
+}
+
+.scrollable::-webkit-scrollbar-thumb {
+  background: var(--border-color);
+  border-radius: 3px;
+}
+
+.scrollable::-webkit-scrollbar-thumb:hover {
+  background: #444;
+}
+
 /* Scrollbar styles */
 ::-webkit-scrollbar {
   width: 6px;
