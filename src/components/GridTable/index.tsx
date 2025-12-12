@@ -1,7 +1,6 @@
 import React, { useMemo } from 'react';
 import { AgGridReact, type AgGridReactProps } from 'ag-grid-react';
 import { ModuleRegistry, AllCommunityModule } from 'ag-grid-community';
-import type { ColDef } from 'ag-grid-community';
 import { PlusCircleIcon, Filter, RefreshCw } from 'lucide-react';
 import './style.css';
 
