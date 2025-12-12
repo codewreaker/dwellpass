@@ -1,5 +1,10 @@
 import { createRootRoute, createRoute } from '@tanstack/react-router'
 import { RootLayout } from './Pages/Layout'
+import HomePage from './Pages/Home'
+import MembersPage from './Pages/Members'
+import CalendarPage from './Pages/Calendar'
+import Analytics from './Pages/Analytics'
+import TablesPage from './Pages/Tables'
 
 // Root route - wraps all pages with layout (sidebar, topbar, etc.)
 const rootRoute = createRootRoute({
@@ -10,30 +15,35 @@ const rootRoute = createRootRoute({
 const indexRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: '/',
-}).lazy(() => import('./Pages/Home/index.lazy').then((d) => d.Route))
+  component: HomePage,
+})
 
 // Members route - Members management page
 const membersRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: '/members',
-}).lazy(() => import('./Pages/Members/index.lazy').then((d) => d.Route))
+  component: MembersPage,
+})
 
 // Calendar route - Events calendar page
 const calendarRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: '/calendar',
-}).lazy(() => import('./Pages/Calendar/index.lazy').then((d) => d.Route))
+  component: CalendarPage,
+})
 
 const analyticsRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: '/analytics',
-}).lazy(() => import('./Pages/Analytics/index.lazy').then((d) => d.Route))
+  component: Analytics,
+})
 
 // Database route - Admin page to view all database tables
 const databaseRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: '/database',
-}).lazy(() => import('./Pages/Tables/index.lazy').then((d) => d.Route))
+  component: TablesPage,
+})
 
 // Route tree - explicitly defines the structure
 export const routeTree = rootRoute.addChildren([
