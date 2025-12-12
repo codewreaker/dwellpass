@@ -2,42 +2,50 @@
 // FILE: src/server/db/index.ts
 // SQLite database connection and configuration
 // ============================================================================
-
+import { drizzle, type BunSQLiteDatabase } from 'drizzle-orm/bun-sqlite';
 import { Database } from "bun:sqlite";
 import path from "node:path";
 
 export { default as UserOperations } from './user'
 
 // Singleton database instance
-let db: Database | null = null;
+let db: BunSQLiteDatabase | null = null;
+let client: Database | null = null
 
-export function getDatabase(): Database {
-  if (!db) {
-    const dbPath = path.join(process.cwd(), "data", "dwellpass.db");
-
-    db = new Database(dbPath, {
+//singleton
+function getBunClient(dbPath: string = path.join(process.cwd(), "data", "dwellpass.db")): Database {
+  if (!client) {
+    client = new Database(dbPath, {
       create: true,
       strict: true, // Better error handling for missing params
     });
 
     // Enable WAL mode for better concurrent performance
-    db.run("PRAGMA journal_mode = WAL;");
+    client.run("PRAGMA journal_mode = WAL;");
 
     // Other performance optimizations
-    db.run("PRAGMA synchronous = NORMAL;");
-    db.run("PRAGMA cache_size = -64000;"); // 64MB cache
-    db.run("PRAGMA temp_store = MEMORY;");
+    client.run("PRAGMA synchronous = NORMAL;");
+    client.run("PRAGMA cache_size = -64000;"); // 64MB cache
+    client.run("PRAGMA temp_store = MEMORY;");
+    console.log(`✓ Database created: ${dbPath}`);
+  }
 
-    console.log(`✓ Database connected: ${dbPath}`);
+  return client;
+}
+
+export function getDatabase(): BunSQLiteDatabase {
+  if (!db) {
+    const client = getBunClient()
+    db = drizzle({ client });
   }
 
   return db;
 }
 
 export function closeDatabase() {
-  if (db) {
-    db.close();
-    db = null;
+  if (client) {
+    client.close();
+    client = null;
     console.log("✓ Database closed");
   }
 }
@@ -115,15 +123,15 @@ export function initializeSchema(db: Database): void {
     // Indexes for better query performance
     db.run(`CREATE INDEX IF NOT EXISTS idx_users_email ON users(email)`);
     db.run(`CREATE INDEX IF NOT EXISTS idx_users_createdAt ON users(createdAt)`);
-    
+
     db.run(`CREATE INDEX IF NOT EXISTS idx_events_status ON events(status)`);
     db.run(`CREATE INDEX IF NOT EXISTS idx_events_hostId ON events(hostId)`);
     db.run(`CREATE INDEX IF NOT EXISTS idx_events_startTime ON events(startTime)`);
-    
+
     db.run(`CREATE INDEX IF NOT EXISTS idx_attendance_eventId ON attendance(eventId)`);
     db.run(`CREATE INDEX IF NOT EXISTS idx_attendance_patronId ON attendance(patronId)`);
     db.run(`CREATE INDEX IF NOT EXISTS idx_attendance_attended ON attendance(attended)`);
-    
+
     db.run(`CREATE INDEX IF NOT EXISTS idx_loyalty_patronId ON loyalty(patronId)`);
     db.run(`CREATE INDEX IF NOT EXISTS idx_loyalty_tier ON loyalty(tier)`);
 
