@@ -3,8 +3,9 @@
 // Admin page to view all database tables using reusable GridTable component
 // ============================================================================
 
-import { useState, useEffect } from 'react';
-import GridTable from '../../components/GridTable';
+import { useState, useEffect, useMemo } from 'react';
+import GridTable, { type MenuItem } from '../../components/GridTable';
+import { RefreshCw } from 'lucide-react';
 import type { ColDef } from 'ag-grid-community';
 import './style.css';
 
@@ -69,6 +70,18 @@ export default function DatabasePage() {
   const currentData = tableData[selectedTable] || [];
   const columnDefs = generateColumnDefs(currentData);
 
+  const menuItems: MenuItem[] = useMemo(
+    () => [
+      {
+        id: 'refresh',
+        label: 'Refresh',
+        icon: <RefreshCw />,
+        action: () => fetchTableData(selectedTable),
+      },
+    ],
+    [selectedTable]
+  );
+
   return (
     <div className="database-page">
       <div className="page-header">
@@ -103,8 +116,7 @@ export default function DatabasePage() {
         <GridTable
           title={`${selectedTable.charAt(0).toUpperCase() + selectedTable.slice(1)} Table`}
           subtitle={currentData.length > 0 ? `${currentData.length} records` : 'No records found'}
-          showActions={true}
-          onRefresh={() => fetchTableData(selectedTable)}
+          menu={menuItems}
           loading={loading}
           columnDefs={columnDefs}
           rowData={currentData}

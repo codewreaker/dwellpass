@@ -12,6 +12,7 @@
   --card-bg: #252525;
   --text-primary: #ffffff;
   --text-secondary: #a0a0a0;
+  --text-accent: var(--primary-yellow);
   --border-color: #333333;
   --success-green: #00ff88;
   --error-red: #ff4444;

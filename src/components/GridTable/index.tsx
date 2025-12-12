@@ -1,30 +1,57 @@
 import React, { useMemo } from 'react';
 import { AgGridReact, type AgGridReactProps } from 'ag-grid-react';
-import { ModuleRegistry, AllCommunityModule } from 'ag-grid-community';
-import { PlusCircleIcon, Filter, RefreshCw } from 'lucide-react';
+import { ModuleRegistry, AllCommunityModule, themeMaterial } from 'ag-grid-community';
+import Header from './Header';
 import './style.css';
 
 ModuleRegistry.registerModules([AllCommunityModule]);
 
+export interface MenuItem {
+  id: string;
+  label: string;
+  icon: React.ReactElement;
+  action: () => void;
+  disabled?: boolean;
+}
+
 interface GridTableProps extends AgGridReactProps {
   title?: string;
   subtitle?: string;
-  showActions?: boolean;
-  onAdd?: () => void;
-  onFilter?: () => void;
-  onRefresh?: () => void;
-  addButtonLabel?: string;
+  menu?: MenuItem[];
   loading?: boolean;
 }
+
+
+// to use myTheme in an application, pass it to the theme grid option
+const theme = themeMaterial
+  .withParams({
+    backgroundColor: 'var(--dark-bg)',
+    headerBackgroundColor: 'var(--darker-bg)',
+    headerTextColor: 'var(--primary-yellow)',
+    oddRowBackgroundColor: 'var(--card-bg)',
+    rowHoverColor: 'rgba(212, 255, 0, 0.05)',
+    selectedRowBackgroundColor: 'rgba(212, 255, 0, 0.1)',
+    borderColor: 'var(--border-color)',
+    foregroundColor: 'var(--text-primary)',
+    browserColorScheme: "dark",
+    checkboxUncheckedBackgroundColor: 'var(--primary-yellow)',
+    checkboxCheckedBackgroundColor: 'var(--primary-yellow)',
+    checkboxIndeterminateBackgroundColor: 'var(--primary-yellow)',
+    chromeBackgroundColor: {
+      ref: "foregroundColor",
+      mix: 0.07,
+      onto: "backgroundColor"
+    },
+    fontSize: 13,
+    headerFontSize: 12,
+    spacing: 6
+  });
+
 
 const GridTable: React.FC<GridTableProps> = ({
   title,
   subtitle,
-  showActions = false,
-  onAdd,
-  onFilter,
-  onRefresh,
-  addButtonLabel = 'Add New',
+  menu = [],
   loading = false,
   columnDefs,
   rowData,
@@ -42,49 +69,18 @@ const GridTable: React.FC<GridTableProps> = ({
 
   return (
     <div className="grid-table-container">
-      {(title || showActions) && (
-        <div className="table-header">
-          {title && (
-            <div className="table-title-section">
-              <h2>{title}</h2>
-              {subtitle && <p className="table-subtitle">{subtitle}</p>}
-            </div>
-          )}
-          {showActions && (
-            <div className="table-actions">
-              {onFilter && (
-                <button className="table-action-btn" onClick={onFilter}>
-                  <Filter size={14} />
-                  <span>Filter</span>
-                </button>
-              )}
-              {onRefresh && (
-                <button 
-                  className="table-action-btn" 
-                  onClick={onRefresh}
-                  disabled={loading}
-                >
-                  <RefreshCw size={14} className={loading ? 'spinning' : ''} />
-                  <span>Refresh</span>
-                </button>
-              )}
-              {onAdd && (
-                <button className="table-action-btn" onClick={onAdd}>
-                  <PlusCircleIcon size={14} />
-                  <span>{addButtonLabel}</span>
-                </button>
-              )}
-            </div>
-          )}
-        </div>
-      )}
-
-      <div className="ag-theme-alpine-dark table-wrapper">
+      <Header
+        title={title}
+        subtitle={subtitle}
+        menu={menu}
+        loading={loading}
+      />
         <AgGridReact
           columnDefs={columnDefs}
           rowData={rowData}
           defaultColDef={defaultColumnDef}
           suppressCellFocus={true}
+          theme={theme}
           rowSelection={{
             mode: 'singleRow',
             checkboxes: false,
@@ -93,7 +89,6 @@ const GridTable: React.FC<GridTableProps> = ({
           domLayout="autoHeight"
           {...gridProps}
         />
-      </div>
     </div>
   );
 };
