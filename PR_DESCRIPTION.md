@@ -1,5 +1,7 @@
 # Pull Request: Drizzle ORM Migration & Feature Enhancements
 
+> **Note**: This document describes the changes present in the `develop` branch that will be merged into `main`. All features, files, and implementations described below exist in the `develop` branch.
+
 ## 🎯 Overview
 
 This PR introduces a comprehensive migration to **Drizzle ORM** and adds significant features to the DwellPass attendance management system. The changes include a complete database layer refactor, new API endpoints, enhanced UI components, and improved data management capabilities.
