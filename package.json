@@ -8,8 +8,12 @@
     "start": "NODE_ENV=production bun run build && bun server/index.ts",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
-    "db:reset": "rm -rf data/* && bun run setup",
-    "setup": "touch data/dwellpass.db && bun server/db/seed.ts"
+    "db:generate": "drizzle-kit generate",
+    "db:migrate": "bun server/db/migrate.ts",
+    "db:push": "bun server/db/push.ts",
+    "db:studio": "drizzle-kit studio",
+    "db:reset": "rm -rf data/* && touch data/dwellpass.db && bun run db:push && bun server/db/seed.ts",
+    "setup": "mkdir -p data && touch data/dwellpass.db && bun run db:push && bun server/db/seed.ts"
   },
   "dependencies": {
     "@hono/zod-validator": "^0.7.5",
@@ -18,6 +22,7 @@
     "@tanstack/react-router": "^1.140.5",
     "ag-grid-community": "^34.3.1",
     "ag-grid-react": "^34.3.1",
+    "drizzle-orm": "^0.45.1",
     "hono": "^4.10.7",
     "lucide-react": "^0.556.0",
     "react": "^19.2.1",
@@ -38,6 +43,7 @@
     "@types/react-dom": "^19.2.3",
     "@vitejs/plugin-react": "^5.1.1",
     "babel-plugin-react-compiler": "^1.0.0",
+    "drizzle-kit": "^0.31.8",
     "eslint": "^9.39.1",
     "eslint-plugin-react-hooks": "^7.0.1",
     "eslint-plugin-react-refresh": "^0.4.24",

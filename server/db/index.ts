@@ -1,75 +1,57 @@
 // ============================================================================
-// FILE: src/server/db/index.ts
-// SQLite database connection and configuration
+// FILE: server/db/index.ts
+// SQLite database connection and configuration with Drizzle ORM
 // ============================================================================
-
+import { drizzle, type BunSQLiteDatabase } from 'drizzle-orm/bun-sqlite';
 import { Database } from "bun:sqlite";
 import path from "node:path";
+import * as schema from './schema';
 
-export { default as UserOperations } from './user'
+// Export schema
+export * from './schema';
 
 // Singleton database instance
-let db: Database | null = null;
+let db: BunSQLiteDatabase<typeof schema> | null = null;
+let client: Database | null = null;
 
-export function getDatabase(): Database {
-  if (!db) {
-    const dbPath = path.join(process.cwd(), "data", "dwellpass.db");
-
-    db = new Database(dbPath, {
+// Singleton client getter
+function getBunClient(dbPath: string = path.join(process.cwd(), "data", "dwellpass.db")): Database {
+  if (!client) {
+    client = new Database(dbPath, {
       create: true,
       strict: true, // Better error handling for missing params
     });
 
     // Enable WAL mode for better concurrent performance
-    db.run("PRAGMA journal_mode = WAL;");
+    client.run("PRAGMA journal_mode = WAL;");
 
     // Other performance optimizations
-    db.run("PRAGMA synchronous = NORMAL;");
-    db.run("PRAGMA cache_size = -64000;"); // 64MB cache
-    db.run("PRAGMA temp_store = MEMORY;");
-
+    client.run("PRAGMA synchronous = NORMAL;");
+    client.run("PRAGMA cache_size = -64000;"); // 64MB cache
+    client.run("PRAGMA temp_store = MEMORY;");
+    client.run("PRAGMA foreign_keys = ON;"); // Enable foreign key constraints
     console.log(`✓ Database connected: ${dbPath}`);
+  }
+
+  return client;
+}
+
+// Get Drizzle database instance
+export function getDatabase(): BunSQLiteDatabase<typeof schema> {
+  if (!db) {
+    const sqliteClient = getBunClient();
+    db = drizzle(sqliteClient, { schema });
   }
 
   return db;
 }
 
+// Close database connection
 export function closeDatabase() {
-  if (db) {
-    db.close();
+  if (client) {
+    client.close();
+    client = null;
     db = null;
     console.log("✓ Database closed");
-  }
-}
-
-// ============================================================================
-// FILE: src/server/db/schema.ts
-// Database schema and migrations
-// ============================================================================
-
-
-export function initializeSchema(db: Database) {
-  try {
-    // Users table
-    db.run(`
-    CREATE TABLE IF NOT EXISTS users (
-      id TEXT PRIMARY KEY,
-      email TEXT UNIQUE NOT NULL,
-      firstName TEXT NOT NULL,
-      lastName TEXT NOT NULL,
-      phone TEXT,
-      createdAt INTEGER NOT NULL,
-      updatedAt INTEGER NOT NULL
-    )
-  `);
-
-    // Indexes for better query performance
-    db.run(`CREATE INDEX IF NOT EXISTS idx_users_email ON users(email)`);
-    db.run(`CREATE INDEX IF NOT EXISTS idx_users_createdAt ON users(createdAt)`);
-
-    console.log("✓ Database schema initialized");
-  } catch (error) {
-    console.error("❌ Failed to initialize schema:", error);
-    throw error;
   }
 }
