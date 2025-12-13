@@ -1,25 +1,8 @@
 /* Database Page Styles */
 .database-page {
-  padding: 1.5rem;
   min-height: 100%;
 }
 
-.page-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 1.5rem;
-}
-
-.page-header h1 {
-  color: var(--text-primary);
-  margin-bottom: 0.375rem;
-}
-
-.page-subtitle {
-  color: var(--text-secondary);
-  font-size: 1rem;
-}
 
 /* Table Selector */
 .table-selector {

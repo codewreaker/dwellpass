@@ -1,22 +1,24 @@
-import { AttendanceBar, AttendanceTable, MembershipBadge, StatusBadge } from '../../containers/AttendanceTable'
 import { useLiveQuery } from '@tanstack/react-db'
 import { LoyaltyTierEnum, type AttendanceType, type LoyaltyType, type UserType } from '../../entities/schemas'
 import { userCollection } from '../../collections/user'
-//import { User } from '../../entities/user'
 import type { ColDef, RowClickedEvent } from 'ag-grid-community'
 import { MoreVertical } from 'lucide-react'
+
+import React from "react";
+import GridTable, { type MenuItem } from "../../components/GridTable";
+import { PlusCircle, Filter } from "lucide-react";
+//import { useAppStore } from "../../store";
+import { MODALS, useModal } from '../../components/Modal/useModal'
+
 
 
 const hdl = (type: string, e?: React.SyntheticEvent | RowClickedEvent) => {
   switch (type) {
     default:
       console.log(e)
-      alert(type)
       return
   }
 }
-
-
 
 const columnDefs: ColDef<UserType & LoyaltyType & AttendanceType>[] = [
   {
@@ -99,11 +101,80 @@ const columnDefs: ColDef<UserType & LoyaltyType & AttendanceType>[] = [
   },
 ];
 
-export default function MembersPage() {
-  const { data } = useLiveQuery((q) => q.from({ userCollection }))
-  const rows: UserType[] = Array.isArray(data) ? data : []
+const StatusBadge: React.FC<{ status: string }> = ({ status }) => {
+  return (
+    <span className={`status-badge ${status ? "active" : "inactive"}`}>
+      {status}
+    </span>
+  );
+};
+
+const MembershipBadge: React.FC<{ level: string }> = ({ level }) => {
+  return (
+    <span className={`membership-badge ${level?.toLowerCase()}`}>{level}</span>
+  );
+};
+
+const AttendanceBar: React.FC<{ rate: number }> = ({ rate }) => {
+  const getColor = (rate: number) => {
+    if (rate >= 90) return "#d4ff00";
+    if (rate >= 75) return "#00ff88";
+    return "#ff9800";
+  };
 
   return (
-      <AttendanceTable columnDefs={columnDefs} rowData={rows} handleAction={hdl} />
+    <div className="attendance-bar-container">
+      <div className="attendance-bar">
+        <div
+          className="attendance-fill"
+          style={{ width: `${rate}%`, backgroundColor: getColor(rate) }}
+        />
+      </div>
+      <span className="attendance-percentage">{rate}%</span>
+    </div>
+  );
+};
+
+
+export default function MembersPage() {
+  const { data } = useLiveQuery((q) => q.from({ userCollection }))
+  const rowData: UserType[] = Array.isArray(data) ? data : []
+  //const addEvent = useAppStore((state) => state.addEvent);
+  const { openModal } = useModal();
+
+  const menuItems: MenuItem[] = [
+    {
+      id: 'filter',
+      label: 'Filter',
+      icon: <Filter />,
+      action: () => console.log('Filter clicked'),
+    },
+    {
+      id: 'add',
+      label: 'Create User',
+      icon: <PlusCircle />,
+      action: () => openModal(MODALS.ADD_USER),
+    },
+  ];
+
+  return (
+    <>
+      <div className="page-header">
+        <div>
+          <h1>Users</h1>
+          <p className="page-subtitle">View all users</p>
+        </div>
+      </div>
+
+      <GridTable
+        title="Member Attendance Records"
+        subtitle={`${rowData.length} total members`}
+        menu={menuItems}
+        columnDefs={columnDefs}
+        rowData={rowData}
+        onRowClicked={(e) => hdl(e.type, e)}
+      />
+    </>
+
   )
 }

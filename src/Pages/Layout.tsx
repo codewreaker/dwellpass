@@ -2,7 +2,8 @@ import { Outlet } from "@tanstack/react-router";
 import { TopNavBar } from "../containers/TopNavBar";
 import { LeftSidebar } from "../containers/LeftSidebar";
 import { RightSidebar } from "../containers/RightSidebar";
-import { SignInModal } from "../containers/SignInModal";
+//import { SignInModal } from "../containers/SignInModal";
+import ModalPortal from "../components/Modal/ModalPortal";
 import {
   LayoutDashboard,
   Users,
@@ -41,7 +42,8 @@ export function RootLayout() {
         <RightSidebar/>
       </div>
 
-      <SignInModal />
+      {/* <SignInModal /> */}
+      <ModalPortal />
     </div>
   );
 }
