@@ -3,3 +3,5 @@ export { Button, type ButtonProps, type ButtonVariant, type ButtonSize } from '.
 export { Input, type InputProps } from './Input';
 export { Menu, type MenuProps, type MenuItemConfig } from './Menu';
 export { Select, type SelectProps, type SelectOption } from './Select';
+export { Tooltip, type TooltipPosition } from '../Tooltip';
+export { default as TooltipDefault } from '../Tooltip';

@@ -7,9 +7,7 @@ import { MoreVertical } from 'lucide-react'
 import React from "react";
 import GridTable, { type MenuItem } from "../../components/GridTable";
 import { PlusCircle, Filter } from "lucide-react";
-//import { useAppStore } from "../../store";
 import { MODALS, useModal } from '../../components/Modal/useModal'
-
 
 
 const hdl = (type: string, e?: React.SyntheticEvent | RowClickedEvent) => {
@@ -139,7 +137,6 @@ const AttendanceBar: React.FC<{ rate: number }> = ({ rate }) => {
 export default function MembersPage() {
   const { data } = useLiveQuery((q) => q.from({ userCollection }))
   const rowData: UserType[] = Array.isArray(data) ? data : []
-  //const addEvent = useAppStore((state) => state.addEvent);
   const { openModal } = useModal();
 
   const menuItems: MenuItem[] = [

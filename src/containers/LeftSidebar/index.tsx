@@ -4,8 +4,8 @@ import {
 } from 'lucide-react';
 import { Link, useLocation } from '@tanstack/react-router';
 import { useAppStore } from "../../store";
+import { Tooltip } from '../../components/ui';
 import './style.css';
-import Tooltip from '../../components/ui/Tooltip';
 
 
 
@@ -40,12 +40,11 @@ export const LeftSidebar: React.FC<LeftSidebarProps> = ({
           const Icon = item.icon;
           const isActive = item.path === pathname;
           return (
-            <Tooltip content={item.label} delay={isCollapsed ? 0 : 500} position='right' key={item.path} >
+            <Tooltip content={item.label} delay={isCollapsed ? 0 : 1500} position='left' key={item.path} >
             <Link
               key={item.path}
               to={item.path}
               className={`sidebar-item ${isActive ? 'active' : ''}`}
-              title={item.label}
             >
               <Icon size={16} />
               {!isCollapsed && <span className="sidebar-label">{item.label}</span>}
@@ -56,7 +55,7 @@ export const LeftSidebar: React.FC<LeftSidebarProps> = ({
       </div>
 
       <div className="sidebar-footer">
-        <button className="sidebar-item" title="Logout">
+        <button className="sidebar-item">
           <LogOut size={16} />
           {!isCollapsed && <span className="sidebar-label">Logout</span>}
         </button>

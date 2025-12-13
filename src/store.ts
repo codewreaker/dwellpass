@@ -14,7 +14,7 @@ interface ModalState {
 export const useAppStore = create(
     devtools(
         combine({
-            sidebarOpen: { left: false, right: false },
+            sidebarOpen: { left: true, right: false },
             events: [] as ActionEvents[],
             modal: { isOpen: false, modalId: null, content: null } as ModalState,
         }, (set) => ({

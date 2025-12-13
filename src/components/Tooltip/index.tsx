@@ -26,14 +26,17 @@ export const Tooltip: React.FC<TooltipProps> = ({
   delay = 300,
 }) => {
   return (
-    <BaseTooltip.Provider>
-      <BaseTooltip.Root delay={delay}>
-        <BaseTooltip.Trigger render={<span className="tooltip-trigger">{children}</span>} />
+    <BaseTooltip.Provider delay={delay}>
+      <BaseTooltip.Root>
+        <BaseTooltip.Trigger className="tooltip-trigger">
+          {children}
+        </BaseTooltip.Trigger>
         <BaseTooltip.Portal>
-          <BaseTooltip.Positioner side={position} sideOffset={6}>
+          <BaseTooltip.Positioner side={position} sideOffset={8}>
             <BaseTooltip.Popup className="tooltip-popup">
               {content}
             </BaseTooltip.Popup>
+            <BaseTooltip.Arrow className="tooltip-arrow" />
           </BaseTooltip.Positioner>
         </BaseTooltip.Portal>
       </BaseTooltip.Root>

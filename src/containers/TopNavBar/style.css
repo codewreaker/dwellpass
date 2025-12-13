@@ -90,6 +90,13 @@
 /* Notification button with badge */
 .notification-btn {
   position: relative;
+  background-color: var(--card-bg);
+  border: 1.5px solid var(--primary-yellow);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--primary-yellow);
 }
 
 .notification-badge {
