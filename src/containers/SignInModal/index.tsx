@@ -11,21 +11,21 @@ import './style.css';
 export const SignInModal: React.FC = () => {
   const hasAddEvent = useAppStore((state) => state.hasEvent('add'));
   const removeEvent = useAppStore((state) => state.removeEvent);
-  const { openModal } = useModal();
+  // const { openModal } = useModal();
 
-  useEffect(() => {
-    // If 'add' event is active, open the signin modal
-    if (hasAddEvent) {
-      openModal(<SignInForm />);
-      removeEvent('add');
-    }
-  }, [hasAddEvent, openModal, removeEvent]);
+  // useEffect(() => {
+  //   // If 'add' event is active, open the signin modal
+  //   if (hasAddEvent) {
+  //     openModal(<SignInForm />);
+  //     removeEvent('add');
+  //   }
+  // }, [hasAddEvent, openModal, removeEvent]);
 
   return null;
 };
 
 // The actual SignIn form component with all the logic
-const SignInForm: React.FC = () => {
+export const SignInForm: React.FC = () => {
   const { closeModal } = useModal();
   const [isSignUp, setIsSignUp] = useState(false);
   const [showPassword, setShowPassword] = useState(false);

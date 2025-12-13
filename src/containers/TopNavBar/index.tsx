@@ -1,15 +1,16 @@
 import React, { useState } from 'react';
 import { Search, Bell, Calendar, User, ChevronDown } from 'lucide-react';
 import './style.css';
-import { useAppStore } from '../../store';
+import { useModal, MODALS } from '../../components/Modal/useModal';
 
 
-export const TopNavBar: React.FC= () => {
+export const TopNavBar: React.FC = () => {
   const [showDropdown, setShowDropdown] = useState(false);
 
-  const addUser = useAppStore((state)=>state.addEvent)
+  const { openModal } = useModal();
 
-  const onNewEventClick =()=>addUser('add')
+
+  const onNewEventClick = () => openModal(MODALS.ADD_EVENT, {});
 
   return (
     <nav className="top-navbar">

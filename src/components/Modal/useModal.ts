@@ -1,6 +1,10 @@
-import { useCallback } from 'react';
-import type { ReactNode } from 'react';
 import { useAppStore } from '../../store';
+
+export const MODALS = {
+  ADD_EVENT: 'add_event',
+  ADD_USER: 'add_user',
+  // Future modals can be added here
+};
 
 /**
  * useModal hook - Provides API for opening/closing modals
@@ -12,15 +16,7 @@ import { useAppStore } from '../../store';
  * openModal(<MyForm onSubmit={handleSubmit} />);
  */
 export function useModal() {
-  const { modal, openModal: storeOpenModal, closeModal: storeCloseModal } = useAppStore();
-
-  const openModal = useCallback((content: ReactNode) => {
-    storeOpenModal(content);
-  }, [storeOpenModal]);
-
-  const closeModal = useCallback(() => {
-    storeCloseModal();
-  }, [storeCloseModal]);
+  const { modal, openModal, closeModal } = useAppStore();
 
   return {
     openModal,

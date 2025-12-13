@@ -72,7 +72,6 @@ const GridTable: React.FC<GridTableProps> = ({
   const gridOptionsMemoized = useMemo(
     () => ({
       ...gridOptions,
-      cellSelection: true,
       suppressCellFocus: true
     }),
     [gridOptions]

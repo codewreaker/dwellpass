@@ -8,7 +8,8 @@ type ActionEvents = 'add' | 'delete' | 'update'
 // Modal state interface - now accepts any React node
 interface ModalState {
     isOpen: boolean;
-    content: ReactNode | null; // The actual component/element to render
+    modalId: string | null;
+    content: Record<string, any> | null; // The actual component/element to render
 }
 
 export const useAppStore = create(
@@ -16,7 +17,7 @@ export const useAppStore = create(
         combine({
             sidebarOpen: { left: false, right: false },
             events: [] as ActionEvents[],
-            modal: { isOpen: false, content: null } as ModalState,
+            modal: { isOpen: false, modalId: null, content: null } as ModalState,
         }, (set) => ({
             toggleSidebar: (pos: 'left' | 'right') => set((state) => ({
                 sidebarOpen: {
@@ -34,11 +35,11 @@ export const useAppStore = create(
             }),
             hasEvent: (eventName: ActionEvents) =>
                 useAppStore.getState().events.includes(eventName),
-            openModal: (content: ReactNode) => set({
-                modal: { isOpen: true, content }
+            openModal: (modalId: string, content: Record<string, any> = {}) => set({
+                modal: { isOpen: true, modalId, content }
             }),
-            closeModal: () => set({
-                modal: { isOpen: false, content: null }
+            closeModal: (modalId: string) => set({
+                modal: { isOpen: false, modalId, content: null }
             }),
         })),
         { name: 'AppStore' } // shows in Redux DevTools

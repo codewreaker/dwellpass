@@ -1,6 +1,22 @@
 import { createPortal } from 'react-dom';
 import { useAppStore } from '../../store';
+import { SignInForm } from '../../containers/SignInModal';
+import { EventForm } from '../EventForm';
+import { MODALS } from './useModal'
+
+
 import './modal.css';
+
+
+const DefaultModal = (args: any) => <code>{JSON.stringify(args)}</code>;
+
+
+// Define modal map outside of component to avoid creating components during render
+const MODAL_COMPONENTS: Record<string, React.ComponentType<any>> = {
+  [MODALS.ADD_USER]: SignInForm,
+  [MODALS.ADD_EVENT]: EventForm,
+  default: DefaultModal,
+};
 
 /**
  * ModalPortal component - Pure presentation layer for modals
@@ -17,9 +33,11 @@ export default function ModalPortal() {
     return null;
   }
 
+  const ModalElement = (MODAL_COMPONENTS[modal.modalId || 'default'] || MODAL_COMPONENTS.default) as React.ComponentType<any>;
+
   // Use portal to render modal content at document.body level
   return createPortal(
-    modal.content,
+    <ModalElement {...modal.content} />,
     document.body
   );
 }
