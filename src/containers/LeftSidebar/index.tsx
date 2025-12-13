@@ -26,6 +26,7 @@ export const LeftSidebar: React.FC<LeftSidebarProps> = ({
   const toggleSidebar = useAppStore(({ toggleSidebar }) => toggleSidebar)
   
   const onToggleCollapse=()=>toggleSidebar('left')
+  console.log('LeftSidebar rendered with isCollapsed:', isCollapsed);
 
   return (
     <aside className={`left-sidebar ${isCollapsed ? 'collapsed' : ''}`}>

@@ -26,14 +26,14 @@ export default function DatabasePage() {
   const fetchTableData = async (table: TableName) => {
     setLoading(true);
     setError(null);
-    
+
     try {
       const response = await fetch(`/api/${table}`);
       if (!response.ok) {
         throw new Error(`Failed to fetch ${table}`);
       }
       const data = await response.json();
-      
+
       setTableData(prev => ({
         ...prev,
         [table]: data,
@@ -52,7 +52,7 @@ export default function DatabasePage() {
   // Generate column definitions dynamically from data
   const generateColumnDefs = (data: any[]): ColDef[] => {
     if (!data || data.length === 0) return [];
-    
+
     const columns = Object.keys(data[0]);
     return columns.map(col => ({
       field: col,
@@ -83,29 +83,27 @@ export default function DatabasePage() {
   );
 
   return (
-    <div className="database-page">
-      <div className="page-header">
-        <div>
+    <>
+      <div className="database-page-header">
+        <div className="page-header">
           <h1>Database Admin</h1>
           <p className="page-subtitle">View all database tables</p>
         </div>
+        <div className="table-selector">
+          {tables.map(table => (
+            <button
+              key={table}
+              className={`table-button ${selectedTable === table ? 'active' : ''}`}
+              onClick={() => setSelectedTable(table)}
+            >
+              {table.charAt(0).toUpperCase() + table.slice(1)}
+              {tableData[table] && (
+                <span className="count">({tableData[table].length})</span>
+              )}
+            </button>
+          ))}
+        </div>
       </div>
-
-      <div className="table-selector">
-        {tables.map(table => (
-          <button
-            key={table}
-            className={`table-button ${selectedTable === table ? 'active' : ''}`}
-            onClick={() => setSelectedTable(table)}
-          >
-            {table.charAt(0).toUpperCase() + table.slice(1)}
-            {tableData[table] && (
-              <span className="count">({tableData[table].length})</span>
-            )}
-          </button>
-        ))}
-      </div>
-
       {error && (
         <div className="error-message">
           <p>Error: {error}</p>
@@ -122,6 +120,6 @@ export default function DatabasePage() {
           rowData={currentData}
         />
       )}
-    </div>
+    </>
   );
 }

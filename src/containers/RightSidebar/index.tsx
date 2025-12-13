@@ -7,10 +7,10 @@ import { useAppStore } from '../../store';
 export const RightSidebar: React.FC= () => {
   const [currentMonth, setCurrentMonth] = useState(new Date());
 
-  const isCollapsed = useAppStore(({ sidebarOpen }) => (sidebarOpen['left']))
+  const isCollapsed = useAppStore(({ sidebarOpen }) => (sidebarOpen['right']))
   const toggleSidebar = useAppStore(({ toggleSidebar }) => toggleSidebar)
 
-  const onToggleCollapse = () => toggleSidebar('left')
+  const onToggleCollapse = () => toggleSidebar('right')
   
   const getDaysInMonth = (date: Date) => {
     const year = date.getFullYear();

@@ -44,7 +44,7 @@ const theme = themeMaterial
     },
     fontSize: 13,
     headerFontSize: 12,
-    spacing: 6
+    spacing: 4
   });
 
 
@@ -85,6 +85,7 @@ const GridTable: React.FC<GridTableProps> = ({
         menu={menu}
         loading={loading}
       />
+      {/* <div className="table-body"> */}
         <AgGridReact
           columnDefs={columnDefs}
           rowData={rowData}
@@ -95,10 +96,10 @@ const GridTable: React.FC<GridTableProps> = ({
             checkboxes: false,
             enableClickSelection: true,
           }}
-          domLayout="autoHeight"
           gridOptions={gridOptionsMemoized}
           {...gridProps}
         />
+      {/* </div> */}
     </div>
   );
 };

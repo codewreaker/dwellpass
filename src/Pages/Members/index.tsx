@@ -160,10 +160,8 @@ export default function MembersPage() {
   return (
     <>
       <div className="page-header">
-        <div>
           <h1>Users</h1>
           <p className="page-subtitle">View all users</p>
-        </div>
       </div>
 
       <GridTable
