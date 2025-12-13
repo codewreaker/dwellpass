@@ -7,7 +7,8 @@ import { MoreVertical } from 'lucide-react'
 import React from "react";
 import GridTable, { type MenuItem } from "../../components/GridTable";
 import { PlusCircle, Filter } from "lucide-react";
-import { MODALS, useModal } from '../../components/Launcher/_useLauncher'
+import { useLauncher } from '../../store';
+import { launchUserForm } from '../../containers/UserForm';
 
 
 const hdl = (type: string, e?: React.SyntheticEvent | RowClickedEvent) => {
@@ -137,7 +138,7 @@ const AttendanceBar: React.FC<{ rate: number }> = ({ rate }) => {
 export default function MembersPage() {
   const { data } = useLiveQuery((q) => q.from({ userCollection }))
   const rowData: UserType[] = Array.isArray(data) ? data : []
-  const { openModal } = useModal();
+  const { openLauncher } = useLauncher();
 
   const menuItems: MenuItem[] = [
     {
@@ -150,7 +151,7 @@ export default function MembersPage() {
       id: 'add',
       label: 'Create User',
       icon: <PlusCircle />,
-      action: () => openModal(MODALS.ADD_USER),
+      action: () => launchUserForm({ isEditing: false }, openLauncher),
     },
   ];
 

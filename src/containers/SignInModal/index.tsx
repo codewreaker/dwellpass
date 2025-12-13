@@ -1,38 +1,25 @@
+/* eslint-disable react-refresh/only-export-components */
 import React, { useState } from 'react';
 import { Mail, Lock, User, Eye, EyeOff } from 'lucide-react';
-import { useAppStore } from '../../store';
-import { useModal } from '../../components/Launcher/_useLauncher';
 import { Button, Input } from '../../components/ui';
+import type { LauncherState } from '../../store';
 import './style.css';
-
-/**
- * SignInModal container - Bridges old event-based system with new modal system
- * Contains the actual sign-in form logic and UI
- */
-export const SignInModal: React.FC = () => {
-  const hasAddEvent = useAppStore((state) => state.hasEvent('add'));
-  const removeEvent = useAppStore((state) => state.removeEvent);
-  // const { openModal } = useModal();
-
-  // useEffect(() => {
-  //   // If 'add' event is active, open the signin modal
-  //   if (hasAddEvent) {
-  //     openModal(<SignInForm />);
-  //     removeEvent('add');
-  //   }
-  // }, [hasAddEvent, openModal, removeEvent]);
-
-  return null;
-};
 
 interface SignInFormProps {
   onClose?: () => void;
 }
 
+export const launchSignInForm = (
+  args: SignInFormProps = {},
+  openLauncher: (args: Omit<LauncherState, "isOpen">) => void
+) => {
+  openLauncher({
+    content: <SignInForm {...args} />,
+  });
+};
+
 // The actual SignIn form component with all the logic
-export const SignInForm: React.FC<SignInFormProps> = ({ onClose }) => {
-  const { closeModal } = useModal();
-  const handleClose = onClose ?? closeModal;
+const SignInForm: React.FC<SignInFormProps> = ({ onClose }) => {
   
   const [isSignUp, setIsSignUp] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
@@ -45,7 +32,7 @@ export const SignInForm: React.FC<SignInFormProps> = ({ onClose }) => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     console.log('Form submitted:', formData);
-    handleClose();
+    onClose?.();
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {

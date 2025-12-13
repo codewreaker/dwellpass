@@ -5,6 +5,7 @@ import { Button } from '../../components/ui';
 import './style.css';
 import { useLauncher } from '../../store';
 import { launchEventForm } from '../EventForm';
+import { launchSignInForm } from '../SignInModal';
 
 
 
@@ -12,6 +13,7 @@ export const TopNavBar: React.FC = () => {
     const { openLauncher } = useLauncher();
 
   const onNewEventClick = () => launchEventForm({ isEditing: false }, openLauncher);
+  const onProfileClick = () => launchSignInForm({}, openLauncher);
 
   return (
     <nav className="top-navbar">
@@ -55,7 +57,7 @@ export const TopNavBar: React.FC = () => {
           <Menu.Portal>
             <Menu.Positioner side="bottom" align="end" sideOffset={6}>
               <Menu.Popup className="dropdown-menu">
-                <Menu.Item className="dropdown-item">
+                <Menu.Item className="dropdown-item" onClick={onProfileClick}>
                   <User size={14} />
                   <span>Profile</span>
                 </Menu.Item>
