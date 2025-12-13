@@ -4,7 +4,7 @@ import { userCollection } from '../../collections/user'
 import type { ColDef, RowClickedEvent } from 'ag-grid-community'
 import { MoreVertical } from 'lucide-react'
 
-import React, { useMemo } from "react";
+import React from "react";
 import GridTable, { type MenuItem } from "../../components/GridTable";
 import { PlusCircle, Filter } from "lucide-react";
 import { useAppStore } from "../../store";
