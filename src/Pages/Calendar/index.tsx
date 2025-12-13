@@ -13,6 +13,7 @@ import { useLiveQuery } from '@tanstack/react-db';
 import { eventCollection } from '../../collections/events';
 import type { Event } from '../../entities/schemas';
 import { MODALS, useModal } from '../../components/Modal/useModal';
+import { Button } from '../../components/ui';
 import './style.css';
 
 // Helper to format date for datetime-local input
@@ -164,10 +165,9 @@ export default function CalendarPage() {
     <div className="calendar-page">
       <div className="calendar-header">
         <h2>Events Calendar</h2>
-        <button className="add-event-btn" onClick={handleAddEventClick}>
-          <Plus size={16} />
+        <Button variant="primary" onClick={handleAddEventClick} leftIcon={<Plus size={16} />}>
           New Event
-        </button>
+        </Button>
       </div>
 
       <div className="calendar-container">

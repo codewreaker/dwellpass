@@ -33,9 +33,6 @@
   gap: 0.75rem;
 }
 
-
-
-
 .logo {
   display: flex;
   align-items: center;
@@ -90,40 +87,9 @@
   color: var(--text-secondary);
 }
 
-.new-event-btn {
-  display: flex;
-  align-items: center;
-  gap: 0.375rem;
-  padding: 0.6rem 0.9375rem;
-  background-color: var(--primary-yellow);
-  color: var(--darker-bg);
-  border-radius: 6px;
-  font-weight: 600;
-  font-size: 1rem;
-  transition: transform 0.2s, box-shadow 0.2s;
-}
-
-.new-event-btn:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 3px 9px rgba(212, 255, 0, 0.3);
-}
-
-.icon-btn {
+/* Notification button with badge */
+.notification-btn {
   position: relative;
-  width: 30px;
-  height: 30px;
-  background-color: var(--card-bg);
-  border: 1px solid var(--border-color);
-  border-radius: 6px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--text-secondary);
-  transition: background-color 0.2s;
-}
-
-.icon-btn:hover {
-  background-color: var(--border-color);
 }
 
 .notification-badge {
@@ -142,17 +108,16 @@
   justify-content: center;
 }
 
-.avatar-dropdown {
-  position: relative;
-}
-
+/* Avatar dropdown trigger */
 .avatar-btn {
   display: flex;
   align-items: center;
   gap: 0.375rem;
   background-color: transparent;
+  border: none;
   color: var(--text-secondary);
   padding: 0;
+  cursor: pointer;
 }
 
 .avatar {
@@ -167,29 +132,59 @@
   color: var(--primary-yellow);
 }
 
+/* Dropdown menu - Base UI Menu styles */
 .dropdown-menu {
-  position: absolute;
-  top: calc(100% + 0.375rem);
-  right: 0;
-  width: 135px;
+  min-width: 135px;
   background-color: var(--card-bg);
   border: 1px solid var(--border-color);
   border-radius: 6px;
   padding: 0.375rem;
   box-shadow: 0 6px 18px rgba(0, 0, 0, 0.4);
+  outline: none;
+}
+
+/* Animation states for dropdown */
+.dropdown-menu[data-starting-style],
+.dropdown-menu[data-ending-style] {
+  opacity: 0;
+  transform: translateY(-4px);
+}
+
+.dropdown-menu[data-open] {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 0.15s ease-out, transform 0.15s ease-out;
 }
 
 .dropdown-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
   padding: 0.5625rem 0.75rem;
   color: var(--text-primary);
   cursor: pointer;
   border-radius: 4.5px;
-  font-size: 1rem;
+  font-size: 0.875rem;
   transition: background-color 0.2s;
+  outline: none;
+  background: transparent;
+  border: none;
+  width: 100%;
+  text-align: left;
 }
 
-.dropdown-item:hover {
+.dropdown-item:hover,
+.dropdown-item[data-highlighted] {
   background-color: var(--border-color);
+}
+
+.dropdown-item svg {
+  color: var(--text-secondary);
+}
+
+.dropdown-item:hover svg,
+.dropdown-item[data-highlighted] svg {
+  color: var(--text-primary);
 }
 
 .dropdown-divider {

@@ -1,4 +1,5 @@
 import React from 'react';
+import { Button } from '../ui';
 import type { MenuItem } from './index';
 
 interface HeaderProps {
@@ -32,16 +33,19 @@ const Header: React.FC<HeaderProps> = ({
             const isRefreshing = loading && item.id === 'refresh';
             
             return (
-              <button
+              <Button
                 key={item.id}
+                variant="secondary"
                 onClick={item.action}
                 disabled={item.disabled || loading}
+                leftIcon={
+                  <span className={isRefreshing ? 'spinning' : ''}>
+                    {item.icon}
+                  </span>
+                }
               >
-                <span className={isRefreshing ? 'spinning' : ''}>
-                  {item.icon}
-                </span>
-                <span>{item.label}</span>
-              </button>
+                {item.label}
+              </Button>
             );
           })}
         </div>

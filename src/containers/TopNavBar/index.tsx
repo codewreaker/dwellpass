@@ -1,14 +1,13 @@
-import React, { useState } from 'react';
-import { Search, Bell, Calendar, User, ChevronDown } from 'lucide-react';
+import React from 'react';
+import { Search, Bell, Calendar, User, ChevronDown, Settings, LogOut } from 'lucide-react';
+import { Menu } from '@base-ui/react/menu';
+import { Button } from '../../components/ui';
 import './style.css';
 import { useModal, MODALS } from '../../components/Modal/useModal';
 
 
 export const TopNavBar: React.FC = () => {
-  const [showDropdown, setShowDropdown] = useState(false);
-
   const { openModal } = useModal();
-
 
   const onNewEventClick = () => openModal(MODALS.ADD_EVENT, { isEditing: false });
 
@@ -34,36 +33,43 @@ export const TopNavBar: React.FC = () => {
 
 
       <div className="navbar-right">
-        <button className="new-event-btn" onClick={onNewEventClick}>
-          <Calendar size={14} />
-          <span>New Event</span>
-        </button>
+        <Button variant="primary" onClick={onNewEventClick} leftIcon={<Calendar size={14} />}>
+          New Event
+        </Button>
 
-        <button className="icon-btn">
+        <Button variant="icon" className="notification-btn">
           <Bell size={15} />
           <span className="notification-badge">3</span>
-        </button>
+        </Button>
 
-        <div className="avatar-dropdown">
-          <button
-            className="avatar-btn"
-            onClick={() => setShowDropdown(!showDropdown)}
-          >
+        <Menu.Root>
+          <Menu.Trigger className="avatar-btn">
             <div className="avatar">
               <User size={15} />
             </div>
             <ChevronDown size={12} />
-          </button>
+          </Menu.Trigger>
 
-          {showDropdown && (
-            <div className="dropdown-menu">
-              <div className="dropdown-item">Profile</div>
-              <div className="dropdown-item">Settings</div>
-              <div className="dropdown-divider" />
-              <div className="dropdown-item">Logout</div>
-            </div>
-          )}
-        </div>
+          <Menu.Portal>
+            <Menu.Positioner side="bottom" align="end" sideOffset={6}>
+              <Menu.Popup className="dropdown-menu">
+                <Menu.Item className="dropdown-item">
+                  <User size={14} />
+                  <span>Profile</span>
+                </Menu.Item>
+                <Menu.Item className="dropdown-item">
+                  <Settings size={14} />
+                  <span>Settings</span>
+                </Menu.Item>
+                <Menu.Separator className="dropdown-divider" />
+                <Menu.Item className="dropdown-item">
+                  <LogOut size={14} />
+                  <span>Logout</span>
+                </Menu.Item>
+              </Menu.Popup>
+            </Menu.Positioner>
+          </Menu.Portal>
+        </Menu.Root>
       </div>
     </nav>
   );

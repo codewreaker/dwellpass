@@ -5,6 +5,7 @@
 
 import { useState, useEffect, useMemo } from 'react';
 import GridTable, { type MenuItem } from '../../components/GridTable';
+import { Button } from '../../components/ui';
 import { RefreshCw } from 'lucide-react';
 import type { ColDef } from 'ag-grid-community';
 import './style.css';
@@ -91,16 +92,17 @@ export default function DatabasePage() {
         </div>
         <div className="table-selector">
           {tables.map(table => (
-            <button
+            <Button
               key={table}
-              className={`table-button ${selectedTable === table ? 'active' : ''}`}
+              variant="secondary"
+              className={selectedTable === table ? 'active' : ''}
               onClick={() => setSelectedTable(table)}
             >
               {table.charAt(0).toUpperCase() + table.slice(1)}
               {tableData[table] && (
                 <span className="count">({tableData[table].length})</span>
               )}
-            </button>
+            </Button>
           ))}
         </div>
       </div>

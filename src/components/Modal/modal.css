@@ -1,31 +1,60 @@
-/* Modal System Styles */
+/* Modal System Styles - Base UI Dialog */
 
+/* Backdrop styles */
 .modal-overlay {
   position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
+  inset: 0;
   background-color: rgba(0, 0, 0, 0.5);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 9999;
   backdrop-filter: blur(4px);
-  animation: fadeIn 0.2s ease-out;
+  z-index: 9998;
 }
 
+/* Animation states for backdrop */
+.modal-overlay[data-starting-style],
+.modal-overlay[data-ending-style] {
+  opacity: 0;
+}
+
+.modal-overlay[data-open] {
+  opacity: 1;
+  transition: opacity 0.2s ease-out;
+}
+
+/* Dialog popup container */
 .modal-container {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   background: white;
   border-radius: 12px;
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
   max-width: 90vw;
   max-height: 90vh;
   overflow: auto;
-  position: relative;
-  animation: slideUp 0.3s ease-out;
+  z-index: 9999;
+  outline: none;
 }
 
+/* Animation states for popup */
+.modal-container[data-starting-style] {
+  opacity: 0;
+  transform: translate(-50%, calc(-50% + 20px));
+}
+
+.modal-container[data-open] {
+  opacity: 1;
+  transform: translate(-50%, -50%);
+  transition: opacity 0.3s ease-out, transform 0.3s ease-out;
+}
+
+.modal-container[data-ending-style] {
+  opacity: 0;
+  transform: translate(-50%, calc(-50% + 20px));
+  transition: opacity 0.2s ease-in, transform 0.2s ease-in;
+}
+
+/* Close button */
 .modal-close {
   position: absolute;
   top: 1rem;
@@ -93,26 +122,6 @@
   animation: spin 0.8s linear infinite;
 }
 
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
-
-@keyframes slideUp {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
 @keyframes spin {
   to {
     transform: rotate(360deg);
@@ -148,6 +157,9 @@
   }
 
   .loading-overlay {
+    background: rgba(31, 41, 55, 0.8);
+  }
+}
     background: rgba(31, 41, 55, 0.8);
   }
 }

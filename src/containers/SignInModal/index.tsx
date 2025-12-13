@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from 'react';
-import { X, Mail, Lock, User, Eye, EyeOff } from 'lucide-react';
+import React, { useState } from 'react';
+import { Mail, Lock, User, Eye, EyeOff } from 'lucide-react';
 import { useAppStore } from '../../store';
 import { useModal } from '../../components/Modal/useModal';
+import { Button, Input } from '../../components/ui';
 import './style.css';
 
 /**
@@ -54,6 +55,16 @@ export const SignInForm: React.FC<SignInFormProps> = ({ onClose }) => {
     });
   };
 
+  const PasswordToggleButton = (
+    <button
+      type="button"
+      className="password-toggle"
+      onClick={() => setShowPassword(!showPassword)}
+    >
+      {showPassword ? <EyeOff size={14} /> : <Eye size={14} />}
+    </button>
+  );
+
   return (
     <div className="signin-modal-content">
       <div className="modal-header">
@@ -62,82 +73,64 @@ export const SignInForm: React.FC<SignInFormProps> = ({ onClose }) => {
       </div>
 
       <div className="modal-body">
-          <form className="signin-form" onSubmit={handleSubmit}>
-            {isSignUp && (
-              <div className="form-group">
-                <label htmlFor="name">Full Name</label>
-                <div className="input-wrapper">
-                  <User className="input-icon" size={14} />
-                  <input
-                    type="text"
-                    id="name"
-                    name="name"
-                    placeholder="Enter your name"
-                    value={formData.name}
-                    onChange={handleChange}
-                    required={isSignUp}
-                  />
-                </div>
-              </div>
-            )}
+        <form className="signin-form" onSubmit={handleSubmit}>
+          {isSignUp && (
+            <Input
+              label="Full Name"
+              type="text"
+              id="name"
+              name="name"
+              placeholder="Enter your name"
+              value={formData.name}
+              onChange={handleChange}
+              required={isSignUp}
+              leftIcon={<User size={14} />}
+            />
+          )}
 
-            <div className="form-group">
-              <label htmlFor="email">Email Address</label>
-              <div className="input-wrapper">
-                <Mail className="input-icon" size={14} />
-                <input
-                  type="email"
-                  id="email"
-                  name="email"
-                  placeholder="Enter your email"
-                  value={formData.email}
-                  onChange={handleChange}
-                  required
-                />
-              </div>
-            </div>
+          <Input
+            label="Email Address"
+            type="email"
+            id="email"
+            name="email"
+            placeholder="Enter your email"
+            value={formData.email}
+            onChange={handleChange}
+            required
+            leftIcon={<Mail size={14} />}
+          />
 
-            <div className="form-group">
-              <label htmlFor="password">Password</label>
-              <div className="input-wrapper">
-                <Lock className="input-icon" size={14} />
-                <input
-                  type={showPassword ? 'text' : 'password'}
-                  id="password"
-                  name="password"
-                  placeholder="Enter your password"
-                  value={formData.password}
-                  onChange={handleChange}
-                  required
-                />
-                <button
-                  type="button"
-                  className="password-toggle"
-                  onClick={() => setShowPassword(!showPassword)}
-                >
-                  {showPassword ? <EyeOff size={14} /> : <Eye size={14} />}
-                </button>
-              </div>
-            </div>
+          <Input
+            label="Password"
+            type={showPassword ? 'text' : 'password'}
+            id="password"
+            name="password"
+            placeholder="Enter your password"
+            value={formData.password}
+            onChange={handleChange}
+            required
+            leftIcon={<Lock size={14} />}
+            rightElement={PasswordToggleButton}
+          />
 
-            <button type="submit" className="signin-button">
-              {isSignUp ? 'Create Account' : 'Sign In'}
+          <Button type="submit" variant="primary" className="signin-button">
+            {isSignUp ? 'Create Account' : 'Sign In'}
+          </Button>
+        </form>
+
+        <div className="signin-footer">
+          <p>
+            {isSignUp ? 'Already have an account?' : "Don't have an account?"}
+            <button
+              type="button"
+              className="toggle-mode"
+              onClick={() => setIsSignUp(!isSignUp)}
+            >
+              {isSignUp ? 'Sign In' : 'Sign Up'}
             </button>
-          </form>
-
-          <div className="signin-footer">
-            <p>
-              {isSignUp ? 'Already have an account?' : "Don't have an account?"}
-              <button
-                type="button"
-                className="toggle-mode"
-                onClick={() => setIsSignUp(!isSignUp)}
-              >
-                {isSignUp ? 'Sign In' : 'Sign Up'}
-              </button>
-            </p>
-          </div>
+          </p>
         </div>
       </div>
+    </div>
   );
 };

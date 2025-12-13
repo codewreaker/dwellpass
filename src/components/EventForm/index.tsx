@@ -11,6 +11,8 @@ import {
 import { eventCollection } from '../../collections/events';
 import type { Event, EventStatus } from '../../entities/schemas';
 import { useModal } from '../Modal/useModal';
+import { Button, Input, Select } from '../ui';
+import './style.css';
 
 // Modal form data type - exported for type safety
 export interface EventFormData {
@@ -42,6 +44,15 @@ const initialFormData: EventFormData = {
   hostId: '',
 };
 
+// Status options for the select
+const statusOptions = [
+  { value: 'draft', label: 'Draft' },
+  { value: 'scheduled', label: 'Scheduled' },
+  { value: 'ongoing', label: 'Ongoing' },
+  { value: 'completed', label: 'Completed' },
+  { value: 'cancelled', label: 'Cancelled' },
+];
+
 // Event Form Component
 export const EventForm = ({ initialData = {}, isEditing = false, onClose }: EventFormProps) => {
   const { closeModal } = useModal();
@@ -53,6 +64,12 @@ export const EventForm = ({ initialData = {}, isEditing = false, onClose }: Even
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleStatusChange = (value: string | null) => {
+    if (value) {
+      setFormData((prev) => ({ ...prev, status: value as EventStatus }));
+    }
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -123,193 +140,158 @@ export const EventForm = ({ initialData = {}, isEditing = false, onClose }: Even
 
       <div className="modal-body">
         <form className="event-form" onSubmit={handleSubmit}>
-            {/* Event Name */}
-            <div className="form-group full-width">
-              <label>
-                <CalendarIcon size={14} />
-                Event Name
-              </label>
-              <div className="input-wrapper">
-                <input
-                  type="text"
-                  name="name"
-                  placeholder="Enter event name"
-                  value={formData.name}
-                  onChange={handleInputChange}
-                  required
-                  style={{ paddingLeft: '0.75rem' }}
-                />
-              </div>
-            </div>
-
-            {/* Start & End Time */}
-            <div className="form-row">
-              <div className="form-group">
-                <label>
-                  <Clock size={14} />
-                  Start Time
-                </label>
-                <div className="input-wrapper">
-                  <input
-                    type="datetime-local"
-                    name="startTime"
-                    value={formData.startTime}
-                    onChange={handleInputChange}
-                    required
-                    style={{ paddingLeft: '0.75rem' }}
-                  />
-                </div>
-              </div>
-              <div className="form-group">
-                <label>
-                  <Clock size={14} />
-                  End Time
-                </label>
-                <div className="input-wrapper">
-                  <input
-                    type="datetime-local"
-                    name="endTime"
-                    value={formData.endTime}
-                    onChange={handleInputChange}
-                    required
-                    style={{ paddingLeft: '0.75rem' }}
-                  />
-                </div>
-              </div>
-            </div>
-
-            {/* Location */}
-            <div className="form-group full-width">
-              <label>
-                <MapPin size={14} />
-                Location
-              </label>
-              <div className="input-wrapper">
-                <MapPin className="input-icon" size={14} />
-                <input
-                  type="text"
-                  name="location"
-                  placeholder="Enter location"
-                  value={formData.location}
-                  onChange={handleInputChange}
-                  required
-                />
-              </div>
-            </div>
-
-            {/* Status & Capacity */}
-            <div className="form-row">
-              <div className="form-group">
-                <label>
-                  <Tag size={14} />
-                  Status
-                </label>
-                <div className="input-wrapper">
-                  <select
-                    name="status"
-                    value={formData.status}
-                    onChange={handleInputChange}
-                    style={{ paddingLeft: '0.75rem' }}
-                  >
-                    <option value="draft">Draft</option>
-                    <option value="scheduled">Scheduled</option>
-                    <option value="ongoing">Ongoing</option>
-                    <option value="completed">Completed</option>
-                    <option value="cancelled">Cancelled</option>
-                  </select>
-                </div>
-              </div>
-              <div className="form-group">
-                <label>
-                  <Users size={14} />
-                  Capacity
-                </label>
-                <div className="input-wrapper">
-                  <Users className="input-icon" size={14} />
-                  <input
-                    type="number"
-                    name="capacity"
-                    placeholder="Max attendees"
-                    value={formData.capacity}
-                    onChange={handleInputChange}
-                    min="1"
-                  />
-                </div>
-              </div>
-            </div>
-
-            {/* Host ID */}
-            <div className="form-group full-width">
-              <label>
-                <Users size={14} />
-                Host ID
-              </label>
-              <div className="input-wrapper">
-                <input
-                  type="text"
-                  name="hostId"
-                  placeholder="Host ID (Current User)"
-                  value={formData.hostId}
-                  onChange={handleInputChange}
-                  required
-                  style={{ paddingLeft: '0.75rem' }}
-                />
-              </div>
-            </div>
-
-            {/* Description */}
-            <div className="form-group full-width">
-              <label>
-                <FileText size={14} />
-                Description
-              </label>
-              <div className="input-wrapper">
-                <textarea
-                  name="description"
-                  placeholder="Enter event description (optional)"
-                  value={formData.description}
-                  onChange={handleInputChange}
-                  rows={3}
-                />
-              </div>
-            </div>
-
-            {/* Actions */}
-            <div className="form-actions">
-              {isEditing && (
-                <button
-                  type="button"
-                  className="btn-delete"
-                  onClick={handleDelete}
-                  disabled={isMutating}
-                >
-                  <Trash2 size={14} />
-                </button>
-              )}
-              <button
-                type="button"
-                className="btn-cancel"
-                onClick={handleClose}
-                disabled={isMutating}
-              >
-                Cancel
-              </button>
-              <button
-                type="submit"
-                className="btn-save"
-                disabled={isMutating}
-              >
-                {isMutating ? 'Saving...' : isEditing ? 'Update Event' : 'Create Event'}
-              </button>
-            </div>
-          </form>
-        </div>
-
-        {isMutating && (
-          <div className="loading-overlay">
-            <div className="loading-spinner" />
+          {/* Event Name */}
+          <div className="form-group full-width">
+            <label className="form-label">
+              <CalendarIcon size={14} />
+              Event Name
+            </label>
+            <input
+              type="text"
+              name="name"
+              className="form-input"
+              placeholder="Enter event name"
+              value={formData.name}
+              onChange={handleInputChange}
+              required
+            />
           </div>
-        )}
+
+          {/* Start & End Time */}
+          <div className="form-row">
+            <div className="form-group">
+              <label className="form-label">
+                <Clock size={14} />
+                Start Time
+              </label>
+              <input
+                type="datetime-local"
+                name="startTime"
+                className="form-input"
+                value={formData.startTime}
+                onChange={handleInputChange}
+                required
+              />
+            </div>
+            <div className="form-group">
+              <label className="form-label">
+                <Clock size={14} />
+                End Time
+              </label>
+              <input
+                type="datetime-local"
+                name="endTime"
+                className="form-input"
+                value={formData.endTime}
+                onChange={handleInputChange}
+                required
+              />
+            </div>
+          </div>
+
+          {/* Location */}
+          <Input
+            label="Location"
+            type="text"
+            name="location"
+            placeholder="Enter location"
+            value={formData.location}
+            onChange={handleInputChange}
+            required
+            leftIcon={<MapPin size={14} />}
+            className="full-width"
+          />
+
+          {/* Status & Capacity */}
+          <div className="form-row">
+            <Select
+              label="Status"
+              value={formData.status}
+              onValueChange={handleStatusChange}
+              options={statusOptions}
+              name="status"
+            />
+            <Input
+              label="Capacity"
+              type="number"
+              name="capacity"
+              placeholder="Max attendees"
+              value={formData.capacity}
+              onChange={handleInputChange}
+              leftIcon={<Users size={14} />}
+            />
+          </div>
+
+          {/* Host ID */}
+          <div className="form-group full-width">
+            <label className="form-label">
+              <Users size={14} />
+              Host ID
+            </label>
+            <input
+              type="text"
+              name="hostId"
+              className="form-input"
+              placeholder="Host ID (Current User)"
+              value={formData.hostId}
+              onChange={handleInputChange}
+              required
+            />
+          </div>
+
+          {/* Description */}
+          <div className="form-group full-width">
+            <label className="form-label">
+              <FileText size={14} />
+              Description
+            </label>
+            <textarea
+              name="description"
+              className="form-textarea"
+              placeholder="Enter event description (optional)"
+              value={formData.description}
+              onChange={handleInputChange}
+              rows={3}
+            />
+          </div>
+
+          {/* Actions */}
+          <div className="form-actions">
+            {isEditing && (
+              <Button
+                type="button"
+                variant="danger"
+                onClick={handleDelete}
+                disabled={isMutating}
+              >
+                <Trash2 size={14} />
+              </Button>
+            )}
+            <Button
+              type="button"
+              variant="secondary"
+              onClick={handleClose}
+              disabled={isMutating}
+            >
+              Cancel
+            </Button>
+            <Button
+              type="submit"
+              variant="primary"
+              disabled={isMutating}
+              isLoading={isMutating}
+            >
+              {isEditing ? 'Update Event' : 'Create Event'}
+            </Button>
+          </div>
+        </form>
       </div>
+
+      {isMutating && (
+        <div className="loading-overlay">
+          <div className="loading-spinner" />
+        </div>
+      )}
+    </div>
   );
 };

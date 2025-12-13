@@ -1,4 +1,5 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React from 'react';
+import { Tooltip as BaseTooltip } from '@base-ui/react/tooltip';
 import './style.css';
 
 export type TooltipPosition = 'top' | 'bottom' | 'left' | 'right';
@@ -11,6 +12,24 @@ interface TooltipProps {
   className?: string;
 }
 
+// Map position to Base UI side
+const positionToSide: Record<TooltipPosition, 'top' | 'bottom' | 'left' | 'right'> = {
+  top: 'top',
+  bottom: 'bottom',
+  left: 'left',
+  right: 'right',
+};
+
+/**
+ * Tooltip Component using Base UI
+ * 
+ * Features:
+ * - Uses Base UI Tooltip for accessible tooltip behavior
+ * - Supports 4 position variants (top, bottom, left, right)
+ * - Auto-adjusts position via collision detection
+ * - Configurable delay before showing
+ * - Includes styled arrow pointing to target
+ */
 export const Tooltip: React.FC<TooltipProps> = ({
   content,
   children,
@@ -18,90 +37,36 @@ export const Tooltip: React.FC<TooltipProps> = ({
   delay = 200,
   className = '',
 }) => {
-  const [isVisible, setIsVisible] = useState(false);
-  const [tooltipPosition, setTooltipPosition] = useState<TooltipPosition>(position);
-  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
-  const triggerRef = useRef<HTMLDivElement>(null);
-  const tooltipRef = useRef<HTMLDivElement>(null);
-
-  const showTooltip = () => {
-    timeoutRef.current = setTimeout(() => {
-      setIsVisible(true);
-    }, delay);
-  };
-
-  const hideTooltip = () => {
-    if (timeoutRef.current) {
-      clearTimeout(timeoutRef.current);
-    }
-    setIsVisible(false);
-  };
-
-  useEffect(() => {
-    return () => {
-      if (timeoutRef.current) {
-        clearTimeout(timeoutRef.current);
-      }
-    };
-  }, []);
-
-  // Adjust tooltip position if it goes off-screen
-  useEffect(() => {
-    if (isVisible && tooltipRef.current && triggerRef.current) {
-      const tooltipRect = tooltipRef.current.getBoundingClientRect();
-      const viewportWidth = window.innerWidth;
-      const viewportHeight = window.innerHeight;
-
-      let adjustedPosition = position;
-
-      // Check if tooltip goes off the right edge
-      if (tooltipRect.right > viewportWidth && position === 'right') {
-        adjustedPosition = 'left';
-      }
-
-      // Check if tooltip goes off the left edge
-      if (tooltipRect.left < 0 && position === 'left') {
-        adjustedPosition = 'right';
-      }
-
-      // Check if tooltip goes off the top
-      if (tooltipRect.top < 0 && position === 'top') {
-        adjustedPosition = 'bottom';
-      }
-
-      // Check if tooltip goes off the bottom
-      if (tooltipRect.bottom > viewportHeight && position === 'bottom') {
-        adjustedPosition = 'top';
-      }
-
-      setTooltipPosition(adjustedPosition);
-    } else {
-      setTooltipPosition(position);
-    }
-  }, [isVisible, position]);
+  const side = positionToSide[position];
 
   return (
-    <div
-      className={`tooltip-container ${className}`}
-      ref={triggerRef}
-      onMouseEnter={showTooltip}
-      onMouseLeave={hideTooltip}
-      onFocus={showTooltip}
-      onBlur={hideTooltip}
-    >
-      {children}
-      {isVisible && (
-        <div
-          ref={tooltipRef}
-          className={`tooltip tooltip-${tooltipPosition}`}
-          role="tooltip"
-        >
-          {content}
-          <div className={`tooltip-arrow tooltip-arrow-${tooltipPosition}`} />
-        </div>
-      )}
-    </div>
+    <BaseTooltip.Provider>
+      <BaseTooltip.Root>
+        <BaseTooltip.Trigger
+          className={`tooltip-container ${className}`}
+          render={(props) => (
+            <span {...props} style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center' }}>
+              {children}
+            </span>
+          )}
+          delay={delay}
+        />
+        <BaseTooltip.Portal>
+          <BaseTooltip.Positioner
+            side={side}
+            sideOffset={8}
+            className="tooltip-positioner"
+          >
+            <BaseTooltip.Popup className="tooltip">
+              {content}
+              <BaseTooltip.Arrow className="tooltip-arrow" />
+            </BaseTooltip.Popup>
+          </BaseTooltip.Positioner>
+        </BaseTooltip.Portal>
+      </BaseTooltip.Root>
+    </BaseTooltip.Provider>
   );
 };
 
 export default Tooltip;
+
