@@ -153,7 +153,7 @@ export default function MembersPage() {
       id: 'add',
       label: 'Create User',
       icon: <PlusCircle />,
-      action: () => openModal(MODALS.ADD_USER, {}),
+      action: () => openModal(MODALS.ADD_USER),
     },
   ];
 

@@ -10,7 +10,7 @@ export const TopNavBar: React.FC = () => {
   const { openModal } = useModal();
 
 
-  const onNewEventClick = () => openModal(MODALS.ADD_EVENT, {});
+  const onNewEventClick = () => openModal(MODALS.ADD_EVENT, { isEditing: false });
 
   return (
     <nav className="top-navbar">

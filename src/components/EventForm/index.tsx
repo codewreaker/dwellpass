@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import {
-  X,
   Calendar as CalendarIcon,
   Clock,
   MapPin,
@@ -11,10 +10,10 @@ import {
 } from 'lucide-react';
 import { eventCollection } from '../../collections/events';
 import type { Event, EventStatus } from '../../entities/schemas';
-import { MODALS, useModal } from '../Modal/useModal';
+import { useModal } from '../Modal/useModal';
 
-// Modal form data type
-interface EventFormData {
+// Modal form data type - exported for type safety
+export interface EventFormData {
   id?: string;
   name: string;
   description: string;
@@ -24,6 +23,12 @@ interface EventFormData {
   location: string;
   capacity: string;
   hostId: string;
+}
+
+interface EventFormProps {
+  initialData?: Partial<EventFormData>;
+  isEditing?: boolean;
+  onClose?: () => void;
 }
 
 const initialFormData: EventFormData = {
@@ -38,8 +43,10 @@ const initialFormData: EventFormData = {
 };
 
 // Event Form Component
-export const EventForm = ({ initialData, isEditing }: { initialData: Partial<EventFormData>, isEditing: boolean }) => {
+export const EventForm = ({ initialData = {}, isEditing = false, onClose }: EventFormProps) => {
   const { closeModal } = useModal();
+  const handleClose = onClose ?? closeModal;
+  
   const [formData, setFormData] = useState<EventFormData>({ ...initialFormData, ...initialData });
   const [isMutating, setIsMutating] = useState(false);
 
@@ -85,7 +92,7 @@ export const EventForm = ({ initialData, isEditing }: { initialData: Partial<Eve
           updatedAt: now,
         } as Event);
       }
-      closeModal(MODALS.ADD_EVENT);
+      handleClose();
     } catch (error) {
       console.error('Failed to save event:', error);
     } finally {
@@ -98,7 +105,7 @@ export const EventForm = ({ initialData, isEditing }: { initialData: Partial<Eve
       setIsMutating(true);
       try {
         eventCollection.delete(formData.id);
-        closeModal(MODALS.ADD_EVENT);
+        handleClose();
       } catch (error) {
         console.error('Failed to delete event:', error);
       } finally {
@@ -108,19 +115,14 @@ export const EventForm = ({ initialData, isEditing }: { initialData: Partial<Eve
   };
 
   return (
-    <div className="modal-overlay" onClick={(e) => e.target === e.currentTarget && closeModal(MODALS.ADD_EVENT)}>
-      <div className="modal-container event-modal" onClick={(e) => e.stopPropagation()}>
-        <button className="modal-close" onClick={() => closeModal(MODALS.ADD_EVENT)}>
-          <X size={18} />
-        </button>
+    <div className="event-modal">
+      <div className="modal-header">
+        <h2>{isEditing ? 'Edit Event' : 'New Event'}</h2>
+        <p>{isEditing ? 'Update event details' : 'Create a new calendar event'}</p>
+      </div>
 
-        <div className="modal-header">
-          <h2>{isEditing ? 'Edit Event' : 'New Event'}</h2>
-          <p>{isEditing ? 'Update event details' : 'Create a new calendar event'}</p>
-        </div>
-
-        <div className="modal-body">
-          <form className="event-form" onSubmit={handleSubmit}>
+      <div className="modal-body">
+        <form className="event-form" onSubmit={handleSubmit}>
             {/* Event Name */}
             <div className="form-group full-width">
               <label>
@@ -287,7 +289,7 @@ export const EventForm = ({ initialData, isEditing }: { initialData: Partial<Eve
               <button
                 type="button"
                 className="btn-cancel"
-                onClick={() => closeModal(MODALS.ADD_EVENT)}
+                onClick={handleClose}
                 disabled={isMutating}
               >
                 Cancel
@@ -309,6 +311,5 @@ export const EventForm = ({ initialData, isEditing }: { initialData: Partial<Eve
           </div>
         )}
       </div>
-    </div>
   );
 };

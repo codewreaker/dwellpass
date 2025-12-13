@@ -1,43 +1,91 @@
 import { createPortal } from 'react-dom';
+import { useEffect, useCallback, useRef } from 'react';
 import { useAppStore } from '../../store';
 import { SignInForm } from '../../containers/SignInModal';
 import { EventForm } from '../EventForm';
-import { MODALS } from './useModal'
-
+import { MODALS, type ModalId } from './useModal';
+import { X } from 'lucide-react';
 
 import './modal.css';
 
 
-const DefaultModal = (args: any) => <code>{JSON.stringify(args)}</code>;
+const DefaultModal = (args: unknown) => <code>{JSON.stringify(args)}</code>;
 
 
 // Define modal map outside of component to avoid creating components during render
-const MODAL_COMPONENTS: Record<string, React.ComponentType<any>> = {
+const MODAL_COMPONENTS: Record<ModalId | 'default', React.ComponentType<any>> = {
   [MODALS.ADD_USER]: SignInForm,
   [MODALS.ADD_EVENT]: EventForm,
   default: DefaultModal,
 };
 
 /**
- * ModalPortal component - Pure presentation layer for modals
- * Simply renders whatever React node is passed to it via the modal system.
- * Uses React Portal to render at document.body level, avoiding CSS stacking,
- * overflow, and z-index issues.
+ * ModalPortal component - Centralized modal container
  * 
- * This component contains NO business logic - it's just a container.
+ * Features:
+ * - Renders modal content via React Portal at document.body
+ * - Provides shared overlay with click-outside-to-close
+ * - Handles Escape key to close
+ * - Prevents body scroll when open
+ * - Applies consistent animations
  */
 export default function ModalPortal() {
-  const { modal } = useAppStore();
+  const { modal, closeModal } = useAppStore();
+  const overlayRef = useRef<HTMLDivElement>(null);
 
-  if (!modal.isOpen || !modal.content) {
+  // Handle Escape key
+  const handleKeyDown = useCallback((e: KeyboardEvent) => {
+    if (e.key === 'Escape') {
+      closeModal();
+    }
+  }, [closeModal]);
+
+  // Handle click outside modal content
+  const handleOverlayClick = useCallback((e: React.MouseEvent) => {
+    if (e.target === overlayRef.current) {
+      closeModal();
+    }
+  }, [closeModal]);
+
+  // Add/remove event listeners and prevent body scroll
+  useEffect(() => {
+    if (modal.isOpen) {
+      document.addEventListener('keydown', handleKeyDown);
+      document.body.style.overflow = 'hidden';
+      
+      return () => {
+        document.removeEventListener('keydown', handleKeyDown);
+        document.body.style.overflow = '';
+      };
+    }
+  }, [modal.isOpen, handleKeyDown]);
+
+  if (!modal.isOpen || !modal.modalId) {
     return null;
   }
 
-  const ModalElement = (MODAL_COMPONENTS[modal.modalId || 'default'] || MODAL_COMPONENTS.default) as React.ComponentType<any>;
+  const ModalElement = MODAL_COMPONENTS[modal.modalId as ModalId] || MODAL_COMPONENTS.default;
 
   // Use portal to render modal content at document.body level
   return createPortal(
-    <ModalElement {...modal.content} />,
+    <div 
+      ref={overlayRef}
+      className="modal-overlay" 
+      onClick={handleOverlayClick}
+      role="dialog"
+      aria-modal="true"
+    >
+      <div className="modal-container" onClick={(e) => e.stopPropagation()}>
+        <button 
+          className="modal-close" 
+          onClick={closeModal}
+          aria-label="Close modal"
+        >
+          <X size={18} />
+        </button>
+        <ModalElement {...(modal.content ?? {})} onClose={closeModal} />
+      </div>
+    </div>,
     document.body
   );
 }

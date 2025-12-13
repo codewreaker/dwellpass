@@ -24,9 +24,15 @@ export const SignInModal: React.FC = () => {
   return null;
 };
 
+interface SignInFormProps {
+  onClose?: () => void;
+}
+
 // The actual SignIn form component with all the logic
-export const SignInForm: React.FC = () => {
+export const SignInForm: React.FC<SignInFormProps> = ({ onClose }) => {
   const { closeModal } = useModal();
+  const handleClose = onClose ?? closeModal;
+  
   const [isSignUp, setIsSignUp] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState({
@@ -38,7 +44,7 @@ export const SignInForm: React.FC = () => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     console.log('Form submitted:', formData);
-    closeModal();
+    handleClose();
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -49,18 +55,13 @@ export const SignInForm: React.FC = () => {
   };
 
   return (
-    <div className="modal-overlay" onClick={(e) => e.target === e.currentTarget && closeModal()}>
-      <div className="modal-container signin-modal-content" onClick={(e) => e.stopPropagation()}>
-        <button className="modal-close" onClick={closeModal}>
-          <X size={18} />
-        </button>
+    <div className="signin-modal-content">
+      <div className="modal-header">
+        <h2>{isSignUp ? 'Create Account' : 'Welcome Back'}</h2>
+        <p>{isSignUp ? 'Sign up to get started' : 'Sign in to your account'}</p>
+      </div>
 
-        <div className="modal-header">
-          <h2>{isSignUp ? 'Create Account' : 'Welcome Back'}</h2>
-          <p>{isSignUp ? 'Sign up to get started' : 'Sign in to your account'}</p>
-        </div>
-
-        <div className="modal-body">
+      <div className="modal-body">
           <form className="signin-form" onSubmit={handleSubmit}>
             {isSignUp && (
               <div className="form-group">
@@ -138,6 +139,5 @@ export const SignInForm: React.FC = () => {
           </div>
         </div>
       </div>
-    </div>
   );
 };
