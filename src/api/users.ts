@@ -8,7 +8,7 @@ import { z } from "zod";
 import { desc, eq } from 'drizzle-orm';
 import { BaseAPI } from './BaseAPI';
 import { users, type User, type NewUser } from '../db/schema';
-import { UserSchema } from '../../src/entities/schemas';
+import { UserSchema } from '../entities/schemas';
 
 // ============================================================================
 // UserAPI - Extends BaseAPI with custom methods

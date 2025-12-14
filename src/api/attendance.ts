@@ -8,7 +8,7 @@ import { z } from "zod";
 import { eq, and, desc } from 'drizzle-orm';
 import { BaseAPI } from './BaseAPI';
 import { attendance, type Attendance, type NewAttendance } from '../db/schema';
-import { AttendanceSchema, CheckInSchema } from '../../src/entities/schemas';
+import { AttendanceSchema, CheckInSchema } from '../entities/schemas';
 
 // ============================================================================
 // AttendanceAPI - Extends BaseAPI with custom methods

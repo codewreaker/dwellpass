@@ -8,7 +8,7 @@ import { z } from "zod";
 import { eq, and, desc, gte } from 'drizzle-orm';
 import { BaseAPI } from './BaseAPI';
 import { loyalty, type Loyalty, type NewLoyalty } from '../db/schema';
-import { LoyaltySchema } from '../../src/entities/schemas';
+import { LoyaltySchema } from '../entities/schemas';
 
 // ============================================================================
 // LoyaltyAPI - Extends BaseAPI with custom methods
@@ -21,7 +21,8 @@ class LoyaltyAPI extends BaseAPI<Loyalty, NewLoyalty, typeof loyalty> {
   /**
    * Find all loyalty records ordered by issued date
    */
-  async findAll(): Promise<Loyalty[]> {
+  
+  override async findAll(): Promise<Loyalty[]> {
     try {
       return await this.db
         .select()

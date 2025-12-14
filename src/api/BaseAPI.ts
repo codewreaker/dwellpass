@@ -145,10 +145,10 @@ export abstract class BaseAPI<TEntity, TInsert, TTable> {
     try {
       const result = await this.db
         .insert(this.table as any)
-        .values(data)
+        .values(data as any)
         .returning();
 
-      return result[0] as TEntity;
+      return result?.[0] as TEntity;
     } catch (error) {
       throw new Error(`Failed to create ${this.tableName}: ${error}`);
     }
@@ -165,7 +165,7 @@ export abstract class BaseAPI<TEntity, TInsert, TTable> {
         .where(eq((this.table as any).id, id))
         .returning();
 
-      return result[0] as TEntity | undefined;
+      return result?.[0] as TEntity | undefined;
     } catch (error) {
       throw new Error(`Failed to update ${this.tableName}: ${error}`);
     }

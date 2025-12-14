@@ -8,60 +8,60 @@ import { z } from "zod";
 import { desc, eq, and, gte, lte } from 'drizzle-orm';
 import { BaseAPI } from './BaseAPI';
 import { events, type Event, type NewEvent } from '../db/schema';
-import { EventSchema, CreateEventSchema } from '../../src/entities/schemas';
+import { EventSchema, CreateEventSchema } from '../entities/schemas';
 
 // ============================================================================
 // EventAPI - Extends BaseAPI with custom methods
 // ============================================================================
 
 class EventAPI extends BaseAPI<Event, NewEvent, typeof events> {
-  protected readonly table = events;
-  protected readonly tableName = 'events';
+    protected readonly table = events;
+    protected readonly tableName = 'events';
 
-  async findByStatus(status: Event['status']): Promise<Event[]> {
-    try {
-      return await this.db
-        .select()
-        .from(events)
-        .where(eq(events.status, status))
-        .orderBy(desc(events.startTime));
-    } catch (error) {
-      throw new Error(`Failed to find events by status: ${error}`);
+    async findByStatus(status: Event['status']): Promise<Event[]> {
+        try {
+            return await this.db
+                .select()
+                .from(events)
+                .where(eq(events.status, status))
+                .orderBy(desc(events.startTime));
+        } catch (error) {
+            throw new Error(`Failed to find events by status: ${error}`);
+        }
     }
-  }
 
-  async findByHostId(hostId: string): Promise<Event[]> {
-    try {
-      return await this.db
-        .select()
-        .from(events)
-        .where(eq(events.hostId, hostId))
-        .orderBy(desc(events.startTime));
-    } catch (error) {
-      throw new Error(`Failed to find events by host: ${error}`);
+    async findByHostId(hostId: string): Promise<Event[]> {
+        try {
+            return await this.db
+                .select()
+                .from(events)
+                .where(eq(events.hostId, hostId))
+                .orderBy(desc(events.startTime));
+        } catch (error) {
+            throw new Error(`Failed to find events by host: ${error}`);
+        }
     }
-  }
 
-  async findByDateRange(startDate: Date, endDate: Date): Promise<Event[]> {
-    try {
-      return await this.db
-        .select()
-        .from(events)
-        .where(
-          and(
-            gte(events.startTime, startDate),
-            lte(events.endTime, endDate)
-          )
-        )
-        .orderBy(desc(events.startTime));
-    } catch (error) {
-      throw new Error(`Failed to find events by date range: ${error}`);
+    async findByDateRange(startDate: Date, endDate: Date): Promise<Event[]> {
+        try {
+            return await this.db
+                .select()
+                .from(events)
+                .where(
+                    and(
+                        gte(events.startTime, startDate),
+                        lte(events.endTime, endDate)
+                    )
+                )
+                .orderBy(desc(events.startTime));
+        } catch (error) {
+            throw new Error(`Failed to find events by date range: ${error}`);
+        }
     }
-  }
 
-  async updateStatus(id: string, status: Event['status']): Promise<Event | undefined> {
-    return await this.update(id, { status });
-  }
+    async updateStatus(id: string, status: Event['status']): Promise<Event | undefined> {
+        return await this.update(id, { status });
+    }
 }
 
 // Initialize API
@@ -81,7 +81,7 @@ eventsRouter.get("/", async (c) => {
     try {
         const status = c.req.query("status");
         const hostId = c.req.query("hostId");
-        
+
         let allEvents;
         if (status) {
             allEvents = await eventAPI.findByStatus(status as any);
@@ -90,7 +90,7 @@ eventsRouter.get("/", async (c) => {
         } else {
             allEvents = await eventAPI.findAll();
         }
-        
+
         return c.json(allEvents);
     } catch (error) {
         console.error("Error fetching events:", error);
@@ -119,13 +119,13 @@ eventsRouter.get("/:id", async (c) => {
 eventsRouter.post("/", async (c) => {
     try {
         const body = await c.req.json();
-        
+
         const processedBody = {
             ...body,
             startTime: new Date(body.startTime),
             endTime: new Date(body.endTime),
         };
-        
+
         const validated = CreateEventSchema.parse(processedBody);
 
         const now = new Date();
@@ -135,7 +135,7 @@ eventsRouter.post("/", async (c) => {
             createdAt: now,
             updatedAt: now,
         });
-        
+
         return c.json(event, 201);
     } catch (error) {
         if (error instanceof z.ZodError) {
@@ -151,13 +151,13 @@ eventsRouter.put("/:id", async (c) => {
     try {
         const id = c.req.param("id");
         const body = await c.req.json();
-        
+
         const processedBody = body.startTime || body.endTime ? {
             ...body,
             ...(body.startTime && { startTime: new Date(body.startTime) }),
             ...(body.endTime && { endTime: new Date(body.endTime) }),
         } : body;
-        
+
         const validated = UpdateEventSchema.parse(processedBody);
 
         const event = await eventAPI.update(id, {
@@ -184,11 +184,8 @@ eventsRouter.patch("/:id/status", async (c) => {
     try {
         const id = c.req.param("id");
         const body = await c.req.json();
-        
-        const StatusSchema = z.object({
-            status: z.enum(['scheduled', 'in-progress', 'completed', 'cancelled'])
-        });
-        
+        const StatusSchema = EventSchema.pick({ status: true });
+
         const { status } = StatusSchema.parse(body);
         const event = await eventAPI.updateStatus(id, status);
 

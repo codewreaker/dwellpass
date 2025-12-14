@@ -7,11 +7,11 @@ import { Hono } from "hono";
 import { cors } from "hono/cors";
 import { logger } from "hono/logger";
 import { serveStatic } from "hono/bun";
-import { getDatabase } from "./db";
-import usersRoutes from "./api/users";
-import eventsRoutes from "./api/events";
-import attendanceRoutes from "./api/attendance";
-import loyaltyRoutes from "./api/loyalty";
+import { getDatabase } from "./src/db";
+import usersRoutes from "./src/api/users";
+import eventsRoutes from "./src/api/events";
+import attendanceRoutes from "./src/api/attendance";
+import loyaltyRoutes from "./src/api/loyalty";
 import { createMiddleware } from "hono/factory";
 import { isDevelopment } from 'std-env';
 

@@ -9,6 +9,6 @@
   "files": [],
   "include": [
     "src"
-, "server/db"  ],
+, "src/db", "server.ts"  ],
   
 }
