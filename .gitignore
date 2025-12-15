@@ -33,3 +33,5 @@ data/*.db-wal
 
 # But keep the directory structure
 !data/.gitkeepcerts/
+.vercel
+.env*.local
