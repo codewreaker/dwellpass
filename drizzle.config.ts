@@ -9,8 +9,9 @@ export default defineConfig({
   schema: './src/db/schema.ts',
   out: './drizzle',
   dialect: 'postgresql',
+  driver: 'pglite',
   dbCredentials: {
-    url: 'postgresql://localhost/dwellpass',
+    url: './data/dwellpass',
   },
   verbose: true,
   strict: true,
