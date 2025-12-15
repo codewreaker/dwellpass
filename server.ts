@@ -8,10 +8,10 @@ import { cors } from "hono/cors";
 import { logger } from "hono/logger";
 import { serveStatic } from "hono/bun";
 import { getDatabase } from "./src/db/index.js";
-import usersRoutes from "./src/api/users.js";
-import eventsRoutes from "./src/api/events.js";
-import attendanceRoutes from "./src/api/attendance.js";
-import loyaltyRoutes from "./src/api/loyalty.js";
+import usersRoutes from "./src/routes/users.js";
+import eventsRoutes from "./src/routes/events.js";
+import attendanceRoutes from "./src/routes/attendance.js";
+import loyaltyRoutes from "./src/routes/loyalty.js";
 import { createMiddleware } from "hono/factory";
 import { isDevelopment } from 'std-env';
 
