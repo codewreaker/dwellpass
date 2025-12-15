@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Star, Calendar as CalendarIcon, ChevronLeft, ChevronRight } from 'lucide-react';
 import './style.css';
-import { useAppStore } from '../../store';
+import { useAppStore } from '../../store.js';
 
 
 export const RightSidebar: React.FC= () => {

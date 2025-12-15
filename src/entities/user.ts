@@ -1,7 +1,7 @@
-import { Loyalty } from "./loyalty";
-import { Attendance } from "./attendance";
-import { UserSchema } from "./schemas";
-import type { UserType, LoyaltyTier} from "./schemas";
+import { Loyalty } from "./loyalty.js";
+import { Attendance } from "./attendance.js";
+import { UserSchema } from "./schemas.js";
+import type { UserType, LoyaltyTier} from "./schemas.js";
 
 export class User implements UserType {
   id: string;

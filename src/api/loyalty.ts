@@ -6,9 +6,9 @@
 import { Hono } from "hono";
 import { z } from "zod";
 import { eq, and, desc, gte } from 'drizzle-orm';
-import { BaseAPI } from './BaseAPI';
-import { loyalty, type Loyalty, type NewLoyalty } from '../db/schema';
-import { LoyaltySchema } from '../entities/schemas';
+import { BaseAPI } from './BaseAPI.js';
+import { loyalty, type Loyalty, type NewLoyalty } from '../db/schema.js';
+import { LoyaltySchema } from '../entities/schemas.js';
 
 // ============================================================================
 // LoyaltyAPI - Extends BaseAPI with custom methods

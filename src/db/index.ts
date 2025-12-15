@@ -5,10 +5,10 @@
 import { drizzle, type BunSQLiteDatabase } from 'drizzle-orm/bun-sqlite';
 import { Database } from "bun:sqlite";
 import path from "node:path";
-import * as schema from './schema';
+import * as schema from './schema.js';
 
 // Export schema
-export * from './schema';
+export * from './schema.js';
 
 // Singleton database instance
 let db: BunSQLiteDatabase<typeof schema> | null = null;

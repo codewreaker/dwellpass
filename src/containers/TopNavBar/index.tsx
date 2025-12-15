@@ -1,11 +1,11 @@
 import React from 'react';
 import { Search, Bell, Calendar, User, ChevronDown, Settings, LogOut } from 'lucide-react';
 import { Menu } from '@base-ui/react/menu';
-import { Button } from '../../components/ui';
+import { Button } from '../../components/ui/index.js';
 import './style.css';
-import { useLauncher } from '../../store';
-import { launchEventForm } from '../EventForm';
-import { launchSignInForm } from '../SignInModal';
+import { useLauncher } from '../../store.js';
+import { launchEventForm } from '../EventForm/index.js';
+import { launchSignInForm } from '../SignInModal/index.js';
 
 
 

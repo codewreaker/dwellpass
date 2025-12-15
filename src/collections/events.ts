@@ -1,7 +1,7 @@
 import { createCollection } from '@tanstack/db'
 import { QueryClient } from '@tanstack/query-core'
 import { queryCollectionOptions } from '@tanstack/query-db-collection'
-import { EventSchema, type Event  } from '../entities/schemas'
+import { EventSchema, type Event  } from '../entities/schemas.js'
 
 const queryClient = new QueryClient();
 

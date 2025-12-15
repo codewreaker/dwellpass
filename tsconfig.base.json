@@ -4,13 +4,14 @@
     // Environment setup & latest features
     "lib": ["ESNext", "DOM", "DOM.Iterable"],
     "target": "ESNext",
-    "module": "ESNext",
+    "module": "nodenext",
     "allowJs": true,
     "types": ["vite/client", "bun-types"],
 
-    /* Bundler mode */
-    "moduleResolution": "bundler",
-    "allowImportingTsExtensions": true,
+    /* Node16/NodeNext mode for explicit extensions */
+    "moduleResolution": "nodenext",
+    "allowImportingTsExtensions": false,
+    "resolveJsonModule": true,
     "verbatimModuleSyntax": true,
     "moduleDetection": "force",
     "noEmit": true,

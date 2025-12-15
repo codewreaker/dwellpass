@@ -6,9 +6,9 @@
 import { Hono } from "hono";
 import { z } from "zod";
 import { desc, eq, and, gte, lte } from 'drizzle-orm';
-import { BaseAPI } from './BaseAPI';
-import { events, type Event, type NewEvent } from '../db/schema';
-import { EventSchema, CreateEventSchema } from '../entities/schemas';
+import { BaseAPI } from './BaseAPI.js';
+import { events, type Event, type NewEvent } from '../db/schema.js';
+import { EventSchema, CreateEventSchema } from '../entities/schemas.js';
 
 // ============================================================================
 // EventAPI - Extends BaseAPI with custom methods

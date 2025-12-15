@@ -8,10 +8,10 @@ import {
   Trash2,
   Sparkles
 } from 'lucide-react';
-import { userCollection } from '../../collections/user';
-import type { UserType } from '../../entities/schemas';
-import { Button, Input } from '../../components/ui';
-import type { LauncherState } from '../../store';
+import { userCollection } from '../../collections/user.js';
+import type { UserType } from '../../entities/schemas.js';
+import { Button, Input } from '../../components/ui/index.js';
+import type { LauncherState } from '../../store.js';
 import './style.css';
 
 // Modal form data type - exported for type safety

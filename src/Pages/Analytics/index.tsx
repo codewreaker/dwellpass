@@ -12,7 +12,7 @@ import {
   Pie,
   Cell,
 } from "recharts";
-import GridLayout from "../../lib/grid-layout";
+import GridLayout from "../../lib/grid-layout.js";
 import "./style.css";
 
 const activityData = [

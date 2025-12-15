@@ -8,11 +8,11 @@ import {
   FileText,
   Trash2
 } from 'lucide-react';
-import { eventCollection as collection } from '../../collections/events';
-import type { Event, EventStatus } from '../../entities/schemas';
-import { Button, Input, Select } from '../../components/ui';
+import { eventCollection as collection } from '../../collections/events.js';
+import type { Event, EventStatus } from '../../entities/schemas.js';
+import { Button, Input, Select } from '../../components/ui/index.js';
 import './style.css';
-import type { LauncherState } from '../../store';
+import type { LauncherState } from '../../store.js';
 
 // Modal form data type - exported for type safety
 export interface EventFormData {

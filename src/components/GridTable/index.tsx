@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react';
 import { AgGridReact, type AgGridReactProps } from 'ag-grid-react';
 import { ModuleRegistry, AllCommunityModule, themeMaterial } from 'ag-grid-community';
-import Header from './Header';
+import Header from './Header.js';
 import './style.css';
 
 ModuleRegistry.registerModules([AllCommunityModule]);

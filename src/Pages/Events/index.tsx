@@ -1,10 +1,10 @@
 import { useCallback, useMemo } from 'react';
 import { useLiveQuery } from '@tanstack/react-db';
-import { eventCollection } from '../../collections/events';
-import type { Event } from '../../entities/schemas';
-import { useLauncher } from '../../store'
-import { launchEventForm, type EventFormProps } from '../../containers/EventForm';
-import CalendarPage from './Calendar';
+import { eventCollection } from '../../collections/events.js';
+import type { Event } from '../../entities/schemas.js';
+import { useLauncher } from '../../store.js';
+import { launchEventForm, type EventFormProps } from '../../containers/EventForm/index.js';
+import CalendarPage from './Calendar/index.js';
 
 
 const EventsPage = () => {

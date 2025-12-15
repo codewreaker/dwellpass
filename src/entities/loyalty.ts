@@ -1,4 +1,4 @@
-import { LoyaltyTierEnum, type LoyaltyTier, type LoyaltyType } from "./schemas";
+import { LoyaltyTierEnum, type LoyaltyTier, type LoyaltyType } from "./schemas.js";
 
 
 const LOYALTY_DESCRIPTIONS: Record<LoyaltyTier, string> = {

@@ -1,8 +1,8 @@
 /* eslint-disable react-refresh/only-export-components */
 import React, { useState } from 'react';
 import { Mail, Lock, User, Eye, EyeOff } from 'lucide-react';
-import { Button, Input } from '../../components/ui';
-import type { LauncherState } from '../../store';
+import { Button, Input } from '../../components/ui/index.js';
+import type { LauncherState } from '../../store.js';
 import './style.css';
 
 interface SignInFormProps {

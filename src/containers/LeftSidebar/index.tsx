@@ -3,8 +3,8 @@ import {
   LogOut, ChevronLeft, ChevronRight
 } from 'lucide-react';
 import { Link, useLocation } from '@tanstack/react-router';
-import { useAppStore } from "../../store";
-import { Tooltip } from '../../components/ui';
+import { useAppStore } from "../../store.js";
+import { Tooltip } from '../../components/ui/index.js';
 import './style.css';
 
 

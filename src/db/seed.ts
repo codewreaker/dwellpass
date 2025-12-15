@@ -4,9 +4,9 @@
 // ============================================================================
 
 import { desc } from 'drizzle-orm';
-import { getDatabase } from "./index";
-import { users, events, attendance, loyalty } from "./schema";
-import type { NewUser, NewEvent, NewAttendance, NewLoyalty } from "./schema";
+import { getDatabase } from "./index.js";
+import { users, events, attendance, loyalty } from "./schema.js";
+import type { NewUser, NewEvent, NewAttendance, NewLoyalty } from "./schema.js";
 
 console.log("🌱 Starting database seed...\n");
 

@@ -9,7 +9,6 @@ export default defineConfig({
   schema: './server/db/schema.ts',
   out: './drizzle',
   dialect: 'sqlite',
-  driver: 'turso',
   dbCredentials: {
     url: 'file:data/dwellpass.db',
   },

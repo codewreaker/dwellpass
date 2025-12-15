@@ -6,9 +6,9 @@
 import { Hono } from "hono";
 import { z } from "zod";
 import { eq, and, desc } from 'drizzle-orm';
-import { BaseAPI } from './BaseAPI';
-import { attendance, type Attendance, type NewAttendance } from '../db/schema';
-import { AttendanceSchema, CheckInSchema } from '../entities/schemas';
+import { BaseAPI } from './BaseAPI.js';
+import { attendance, type Attendance, type NewAttendance } from '../db/schema.js';
+import { AttendanceSchema, CheckInSchema } from '../entities/schemas.js';
 
 // ============================================================================
 // AttendanceAPI - Extends BaseAPI with custom methods

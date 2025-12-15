@@ -7,7 +7,7 @@ import { drizzle, type BunSQLiteDatabase } from 'drizzle-orm/bun-sqlite';
 import { Database } from 'bun:sqlite';
 import { eq } from 'drizzle-orm';
 import path from 'node:path';
-import * as schema from '../db/schema';
+import * as schema from '../db/schema.js';
 
 // ============================================================================
 // Database Manager (Singleton)

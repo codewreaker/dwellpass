@@ -6,9 +6,9 @@
 import { Hono } from "hono";
 import { z } from "zod";
 import { desc, eq } from 'drizzle-orm';
-import { BaseAPI } from './BaseAPI';
-import { users, type User, type NewUser } from '../db/schema';
-import { UserSchema } from '../entities/schemas';
+import { BaseAPI } from './BaseAPI.js';
+import { users, type User, type NewUser } from '../db/schema.js';
+import { UserSchema } from '../entities/schemas.js';
 
 // ============================================================================
 // UserAPI - Extends BaseAPI with custom methods
