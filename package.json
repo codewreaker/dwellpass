@@ -10,10 +10,10 @@
     "lint": "eslint .",
     "db:generate": "drizzle-kit generate",
     "db:migrate": "bun src/db/migrate.ts",
-    "db:push": "bun src/db/push.ts",
+    "db:seed": "bun src/db/seed.ts",
     "db:studio": "drizzle-kit studio",
-    "db:reset": "rm -rf data/* && touch data/dwellpass.db && bun run db:push && bun src/db/seed.ts",
-    "setup": "mkdir -p data && touch data/dwellpass.db && bun run db:push && bun src/db/seed.ts"
+    "db:setup": "mkdir -p data && bun db:migrate && bun db:seed",
+    "db:reset": "rm -rf data/* && bun db:setup"
   },
   "dependencies": {
     "@base-ui/react": "^1.0.0",
@@ -50,6 +50,7 @@
     "@types/react-dom": "^19.2.3",
     "@vitejs/plugin-react": "^5.1.1",
     "babel-plugin-react-compiler": "^1.0.0",
+    "better-sqlite3": "^12.5.0",
     "drizzle-kit": "^0.31.8",
     "eslint": "^9.39.1",
     "eslint-plugin-react-hooks": "^7.0.1",

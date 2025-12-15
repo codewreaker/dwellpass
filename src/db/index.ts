@@ -18,7 +18,7 @@ let client: Database | null = null;
 function getBunClient(dbPath: string = path.join(process.cwd(), "data", "dwellpass.db")): Database {
   if (!client) {
     client = new Database(dbPath, {
-      create: true,
+      create: false,
       strict: true, // Better error handling for missing params
     });
 
