@@ -4,16 +4,16 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "NODE_ENV=development bun run.ts",
-    "start": "NODE_ENV=production bun run build && bun server.ts",
+    "start": "NODE_ENV=development bun run.ts",
+    "preview": "NODE_ENV=production bun run build && bun server.ts",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "db:generate": "drizzle-kit generate",
-    "db:migrate": "bun server/db/migrate.ts",
-    "db:push": "bun server/db/push.ts",
+    "db:migrate": "bun src/db/migrate.ts",
+    "db:push": "bun src/db/push.ts",
     "db:studio": "drizzle-kit studio",
-    "db:reset": "rm -rf data/* && touch data/dwellpass.db && bun run db:push && bun server/db/seed.ts",
-    "setup": "mkdir -p data && touch data/dwellpass.db && bun run db:push && bun server/db/seed.ts"
+    "db:reset": "rm -rf data/* && touch data/dwellpass.db && bun run db:push && bun src/db/seed.ts",
+    "setup": "mkdir -p data && touch data/dwellpass.db && bun run db:push && bun src/db/seed.ts"
   },
   "dependencies": {
     "@base-ui/react": "^1.0.0",

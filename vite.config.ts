@@ -16,13 +16,13 @@ export default defineConfig({
   ],
   server: {
     host: true,
-    https: {
-      key: fs.readFileSync('./certs/key.pem'),
-      cert: fs.readFileSync('./certs/cert.pem'),
-    },
+    // https: {
+    //   key: fs.readFileSync('./certs/key.pem'),
+    //   cert: fs.readFileSync('./certs/cert.pem'),
+    // },
     proxy: {
       '/api': {
-        target: `https://localhost:${process.env.PORT || 3000}`,
+        target: `http://localhost:${process.env.PORT || 3000}`,
         changeOrigin: true,
         secure: false, // Allow self-signed certificates
       }

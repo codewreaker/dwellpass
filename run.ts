@@ -18,7 +18,7 @@ const run = async () => {
     const viteProcess = spawn(["bun", "--bun", "vite"], spawnOptions)
     processes.push(viteProcess)
     // Start Hono backend with watch mode
-    const honoProcess = spawn(["bun", "--watch", "server/index.ts"], spawnOptions)
+    const honoProcess = spawn(["bun", "--watch", "server.ts"], spawnOptions)
     processes.push(honoProcess)
     // Cleanup function
     const cleanup = async () => {
