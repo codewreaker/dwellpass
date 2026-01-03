@@ -5,7 +5,6 @@ import MembersPage from './Pages/Members/index.js'
 import EventsPage from './Pages/Events/index.js'
 import Analytics from './Pages/Analytics/index.js'
 import TablesPage from './Pages/Tables/index.js'
-import { ComponentExample } from "@/components/component-example.js";
 
 // Root route - wraps all pages with layout (sidebar, topbar, etc.)
 const rootRoute = createRootRoute({
@@ -46,12 +45,7 @@ const databaseRoute = createRoute({
   component: TablesPage,
 })
 
-// Tailwinfd Sample
-const tailwindExample = createRoute({
-  getParentRoute: () => rootRoute,
-  path: '/tailwind',
-  component: ComponentExample,
-})
+
 
 // Route tree - explicitly defines the structure
 export const routeTree = rootRoute.addChildren([
@@ -59,8 +53,7 @@ export const routeTree = rootRoute.addChildren([
   membersRoute,
   eventsRoute,
   analyticsRoute,
-  databaseRoute,
-  tailwindExample
+  databaseRoute
 ])
 
 // Export individual routes for type safety and easy access

@@ -16,7 +16,7 @@ export const TopNavBar: React.FC = () => {
   const onProfileClick = () => launchSignInForm({}, openLauncher);
 
   return (
-    <nav className="top-navbar">
+    <div className="top-navbar">
       <div className="navbar-left">
         <div className="logo">
           <div className="logo-icon">DP</div>
@@ -72,6 +72,6 @@ export const TopNavBar: React.FC = () => {
           </DropdownMenuContent>
         </DropdownMenu>
       </div>
-    </nav>
+    </div>
   );
 };
